@@ -1,0 +1,243 @@
+.mail-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 24px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.mail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mail-header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.mail-back-btn {
+  background-color: #110303;
+  color: #ccc1c1;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.mail-back-btn:hover {
+  background-color: #aaa;
+}
+
+
+
+
+.mail-header h2 {
+  font-size: 26px;
+  color: #2e2e2e;
+}
+
+.mail-add-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.mail-add-btn:hover {
+  background-color: #218838;
+}
+
+.mail-filter {
+  margin-bottom: 20px;
+}
+
+.mail-filter label {
+  margin-right: 8px;
+  font-weight: 500;
+}
+
+.mail-filter select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.mail-draft-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mail-draft-card {
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-left: 5px solid #0078d4;
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s;
+}
+
+.mail-draft-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.mail-draft-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.mail-draft-subject {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.mail-draft-meta {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.mail-draft-message {
+  white-space: pre-wrap; /* ⭐ สำคัญ: ให้แสดงผลตามช่องว่างและ \n */
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.mail-draft-btn {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.mail-draft-btn:hover {
+  background-color: #005ea2;
+}
+
+.mail-no-draft {
+  color: #999;
+  font-style: italic;
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* MODAL */
+
+.mail-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.mail-modal {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.mail-modal h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.mail-form label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.mail-form input,
+.mail-form textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.mail-form textarea {
+  resize: vertical;
+}
+
+.mail-modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.mail-modal-buttons button {
+  padding: 8px 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mail-modal-buttons button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
+
+.mail-modal-buttons button[type="button"] {
+  background-color: #ccc;
+  color: #333;
+}
+
+
+.mail-delete-btn {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  margin-left: 8px;
+}
+
+.mail-delete-btn:hover {
+  background-color: #d9363e;
+}
+
+
+.mail-filter {
+  margin-bottom: 20px;
+  max-width: 300px;
+}

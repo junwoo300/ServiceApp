@@ -1,0 +1,39 @@
+/* pmapage.css */
+
+.image-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* เพิ่มความห่างระหว่างรูปภาพ */
+    margin-top: 20px;
+}
+
+.image-item {
+    text-align: center;
+}
+
+.image-item img {
+    width: 400px; /* ปรับขนาดของรูปภาพให้ใหญ่ขึ้น 50% จากเดิม */
+    border-radius: 10px; /* ใส่ขอบโค้งลงรอบรูป */
+    transition: transform 0.2s ease-in-out; /* เพิ่ม animation เมื่อ hover */
+}
+
+.image-item img:hover {
+    transform: scale(1.1); /* เพิ่มขนาดของรูปภาพเล็กน้อยเมื่อ hover */
+}
+
+.image-item p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.img-add img{
+    opacity: 0.5;
+    width: 5%;
+    margin-left: 5%;
+  }
+
+
+  /* pmapage.css */
+
+

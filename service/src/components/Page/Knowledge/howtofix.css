@@ -1,0 +1,200 @@
+.howtofix-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.howtofix-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.howtofix-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.howtofix-card {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.howtofix-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.howtofix-card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.howtofix-card-desc {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: inherit;
+}
+
+.howtofix-card-position {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.howtofix-back-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.howtofix-back-button:hover {
+    background-color: #0056b3;
+}
+
+
+.howtofix-add-button {
+    margin: 16px 0;
+    padding: 10px 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.howtofix-form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.howtofix-form input,
+.howtofix-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.howtofix-form button {
+    padding: 8px 14px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+
+.howtofix-button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.howtofix-add-button,
+.howtofix-back-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.howtofix-add-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.howtofix-back-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.howtofix-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.howtofix-modal {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.howtofix-modal h3 {
+    margin-top: 0;
+}
+
+.howtofix-form input,
+.howtofix-form textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.howtofix-form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.howtofix-form button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.howtofix-form button[type="button"] {
+    background-color: #f44336;
+}
+
+.howtofix-form button:hover {
+    background-color: #45a049;
+}
+
+.howtofix-form button[type="button"]:hover {
+    background-color: #e53935;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

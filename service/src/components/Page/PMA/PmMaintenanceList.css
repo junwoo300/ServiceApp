@@ -1,0 +1,74 @@
+/* Container ของรายการ PmMaintenance */
+.pma-maintenance-list-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  /* หัวตาราง */
+  .pma-maintenance-list-header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* ปุ่มเพิ่ม */
+  .btn-add-maintenance {
+    background-color: #4CAF50; /* สีเขียว */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  /* ตาราง */
+  .pma-maintenance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+  }
+  
+  /* ตารางหัวข้อ */
+  .pma-maintenance-table thead {
+    background-color: #f2f2f2;
+  }
+  
+  .pma-maintenance-table th,
+  .pma-maintenance-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* สีพื้นหลังของแถวที่แตกต่างกัน */
+  .pma-maintenance-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .pma-maintenance-table tr:hover {
+    background-color: #ddd;
+  }
+  
+  /* ปุ่มลบและแก้ไข */
+  .btn-edit-maintenance,
+  .btn-delete-maintenance {
+    background-color: #f0ad4e; /* สีส้ม */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 5px;
+  }
+  
+  .btn-delete-maintenance {
+    background-color: #d9534f; /* สีแดง */
+  }
+  

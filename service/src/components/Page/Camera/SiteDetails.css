@@ -1,0 +1,98 @@
+.site-table {
+    display: flex;
+    flex-direction: column; /* จัดเรียงเป็นแนวตั้ง */
+    margin: 20px; /* ระยะห่างจากด้านนอก */
+}
+
+.site-row {
+    display: flex; /* ใช้ flex เพื่อให้สามารถจัดเรียงช่องในแถว */
+    justify-content: center; /* จัดกึ่งกลางช่องในแถว */
+    margin: 10px 0; /* ระยะห่างระหว่างแถว */
+}
+
+.site-cell {
+    border: 1px solid #ccc; /* กำหนดกรอบให้กับเซลล์ */
+    padding: 20px; /* ระยะห่างภายในเซลล์ */
+    flex: 1; /* ให้เซลล์มีขนาดเท่ากัน */
+    text-align: center; /* จัดข้อความให้อยู่กลาง */
+    margin: 0 10px; /* ระยะห่างระหว่างเซลล์ */
+    border-radius: 5px; /* เพิ่มความโค้งให้กับมุม */
+    background-color: #f9f9f9; /* สีพื้นหลังของเซลล์ */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้กับเซลล์ */
+    
+}
+.site-cell a {
+    text-decoration: none; /* ไม่ให้แสดงเส้นใต้ */
+    color: inherit; /* ใช้สีเดียวกับข้อความรอบข้าง */
+}
+
+
+.site-title{
+    text-align: center;
+}
+
+.back-button {
+    margin: 10px; /* ระยะห่างจากขอบ */
+    padding: 10px 15px; /* ขนาดของปุ่ม */
+    background-color: #007bff; /* สีพื้นหลัง */
+    color: white; /* สีข้อความ */
+    border: none; /* ไม่มีเส้นขอบ */
+    border-radius: 5px; /* มุมโค้ง */
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ปุ่ม */
+    font-size: 16px; /* ขนาดฟอนต์ */
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* สีเมื่อเอาเมาส์ไปชี้ */
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+}
+
+.close {
+    cursor: pointer;
+    float: right;
+}
+
+.add-button {
+   
+    padding: 10px 20px; /* ขนาดของปุ่ม */
+    background-color: #7989f0; /* สีพื้นหลัง */
+    color: white; /* สีข้อความ */
+    border: none; /* ไม่แสดงกรอบ */
+    border-radius: 5px; /* ทำให้มุมปุ่มมน */
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เป็น pointer เมื่อชี้ไปที่ปุ่ม */
+}
+
+.add-button:hover {
+    background-color: #45a049; /* สีเมื่อวางเมาส์อยู่บนปุ่ม */
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: space-between; /* จัดให้มีระยะห่างระหว่างปุ่ม */
+    margin-bottom: 20px; /* เว้นระยะห่างจากส่วนถัดไป */
+}
+
+.back-button,
+.add-button {
+    margin: 0 10px; /* เว้นระยะห่างซ้ายขวาของปุ่ม */
+}

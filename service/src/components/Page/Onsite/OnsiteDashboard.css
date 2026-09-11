@@ -1,0 +1,425 @@
+/* OnsiteDashboard.css */
+
+/* --- General Layout & Typography --- */
+.onsite-dashboard-wrapper {
+    font-family: 'Sarabun', sans-serif;
+    padding: 30px;
+    background-color: #f5f7fa;
+    max-width: 1800px;
+    margin: 2rem auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    min-height: 100vh; /* เพื่อให้เต็มความสูงจอเมื่อเนื้อหาน้อย */
+}
+
+.mail-back-btn {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    transition: background-color 0.2s;
+    display: inline-flex; /* ทำให้ icon จัดเรียงสวยงาม */
+    align-items: center;
+    gap: 8px;
+}
+.mail-back-btn:hover { background-color: #e9ecef; }
+
+.onsite-dashboard-title {
+    color: #333;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 0.5rem;
+    font-size: 24px;
+    color: #2c3e50;
+}
+
+/* --- Controls & Filters --- */
+.onsite-controls-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.onsite-filter-container,
+.onsite-export-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem; /* Gap between filter/export items */
+    align-items: flex-end; /* Align items to the bottom */
+}
+
+.onsite-filter-container label,
+.onsite-export-container label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #555;
+    font-size: 14px; /* Consistent font size for labels */
+    color: #34495e; /* Your preferred label color */
+    min-width: 150px;
+}
+
+.onsite-filter-select,
+.onsite-filter-date {
+    margin-top: 5px; /* Spacing from label */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 180px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.onsite-filter-select:focus,
+.onsite-filter-date:focus {
+    outline: none;
+    border-color: #2980b9;
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+}
+
+/* --- Action Buttons (Export, Import) --- */
+.onsite-action-button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600; /* Make buttons bolder */
+    transition: background-color 0.2s;
+    white-space: nowrap; /* Prevent text wrapping */
+    align-self: flex-end; /* Align buttons to the bottom of their container */
+}
+
+.onsite-export-button { background-color: #27ae60; } /* Export green */
+.onsite-export-button:hover:not(:disabled) { background-color: #1e8449; }
+
+.onsite-import-button { background-color: #007bff; } /* Import blue */
+.onsite-import-button:hover:not(:disabled) { background-color: #0056b3; }
+
+.onsite-action-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Specific div for spacing between export buttons */
+.onsite-export-container > div {
+    width: 30px; /* Adjust as needed for spacing */
+    flex-shrink: 0;
+}
+
+/* --- Table Styles --- */
+.onsite-dashboard-table-wrapper {
+    overflow-x: auto; /* Enable horizontal scroll for table */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.onsite-dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.onsite-dashboard-table th,
+.onsite-dashboard-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    text-align: left; /* Default left align */
+    vertical-align: middle;
+    font-size: 14px;
+    color: #34495e;
+}
+
+.onsite-dashboard-table th {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: center; /* Center align table headers */
+}
+
+/* Adjust specific column alignments */
+.onsite-dashboard-table td:nth-child(1), /* ลำดับ */
+.onsite-dashboard-table td:nth-child(2), /* วันที่ */
+.onsite-dashboard-table td:nth-child(3), /* ประเภท */
+.onsite-dashboard-table td:nth-child(4), /* ไซต์งาน */
+.onsite-dashboard-table td:nth-child(5), /* ขอบเขต */
+.onsite-dashboard-table td:nth-child(6), /* Ref Code */
+.onsite-dashboard-table td:nth-child(7), /* หุ่นยนต์ */
+.onsite-dashboard-table td:nth-child(8) /* รายละเอียด */
+{
+    text-align: center;
+}
+
+.onsite-dashboard-table td:nth-child(9), /* พนักงาน */
+.onsite-dashboard-table td:nth-child(10) /* อุปกรณ์ */
+{
+    text-align: left; /* Keep left aligned for lists */
+}
+
+/* Right align cost columns */
+.onsite-dashboard-table td:nth-child(11), /* ค่าเดินทาง */
+.onsite-dashboard-table td:nth-child(12), /* ค่าขนส่ง */
+.onsite-dashboard-table td:nth-child(13), /* ค่าอุปกรณ์ */
+.onsite-dashboard-table td:nth-child(14), /* ค่าแรง */
+.onsite-dashboard-table td:nth-child(15) /* รวม */
+{
+    text-align: right;
+}
+
+
+.onsite-dashboard-table tbody tr:hover {
+    background-color: #f1f7fc;
+}
+
+.onsite-dashboard-table .wrap-text {
+    white-space: normal; /* Allow text to wrap for scope/details/employee/equipment */
+}
+
+/* --- Table Action Buttons (Edit, Delete) --- */
+.actions-column {
+    display: flex;
+    justify-content: center; /* จัดปุ่มให้อยู่ตรงกลาง */
+    align-items: center;
+    gap: 5px; /* ระยะห่างระหว่างปุ่ม */
+    white-space: nowrap; /* ป้องกันปุ่มไม่ให้ขึ้นบรรทัดใหม่ */
+}
+
+.onsite-edit-button {
+    background-color: #3498db; /* สีน้ำเงินสำหรับแก้ไข */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.onsite-edit-button:hover {
+    background-color: #2980b9;
+}
+
+.onsite-delete-button {
+    background-color: #e74c3c; /* สีแดงสำหรับลบ */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px; /* ใช้ ❌ เป็นตัวหนังสือ */
+    transition: background-color 0.3s ease;
+}
+
+.onsite-delete-button:hover {
+    background-color: #c0392b;
+}
+
+/* --- Status Messages (Loading, Error, No Data) --- */
+.onsite-status-message {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+/* --- Pagination Controls --- */
+.onsite-pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    margin-top: 1rem;
+}
+
+.onsite-pagination-controls button {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.onsite-pagination-controls button:hover:not(:disabled) {
+    background-color: #f0f0f0;
+}
+
+.onsite-pagination-controls button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: #f8f8f8;
+}
+
+.onsite-pagination-controls span {
+    font-weight: 500;
+    color: #555;
+}
+
+/* --- Modal Styles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* พื้นหลังทึบแสง */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* ให้ Modal อยู่บนสุด */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px; /* เพิ่มความกว้างสูงสุดเพื่อรองรับฟิลด์เยอะๆ */
+    animation: fadeIn 0.3s ease-out; /* เพิ่ม animation */
+    max-height: 90vh; /* จำกัดความสูง Modal */
+    overflow-y: auto; /* เปิดใช้งาน Scrollbar หากเนื้อหาเกิน */
+}
+
+.modal-content h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 1.6rem;
+}
+
+/* Form Group ใน Modal */
+.form-group {
+    margin-bottom: 15px; /* ลดระยะห่างลงเล็กน้อยเพื่อให้ฟอร์มกระชับขึ้น */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+    font-size: 1rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    box-sizing: border-box; /* ให้ padding ไม่เพิ่มขนาดรวม */
+    resize: vertical; /* อนุญาตให้ textarea ปรับขนาดในแนวตั้งได้ */
+}
+
+/* สไตล์สำหรับ input ที่เป็น readOnly */
+.form-group input[type="text"][readOnly],
+.form-group input[type="number"][readOnly],
+.form-group textarea[readOnly] {
+    background-color: #e9ecef; /* สีพื้นหลังอ่อนลง */
+    color: #6c757d; /* สีตัวอักษรจางลง */
+    cursor: not-allowed; /* เปลี่ยน cursor */
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.form-group select[multiple] {
+    min-height: 100px; /* เพิ่มความสูงสำหรับ multi-select */
+}
+
+/* ปุ่มใน Modal */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end; /* จัดปุ่มไปทางขวา */
+    gap: 15px; /* เว้นระยะห่างระหว่างปุ่ม */
+    margin-top: 25px;
+}
+
+.submit-btn,
+.cancel-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.submit-btn {
+    background-color: #007bff; /* สีน้ำเงิน */
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    background-color: #6c757d; /* สีเทา */
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* Animation สำหรับ Modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .onsite-filter-container,
+    .onsite-export-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .onsite-filter-select,
+    .onsite-filter-date,
+    .onsite-action-button {
+        width: 100%; /* Make inputs and buttons full width on smaller screens */
+        min-width: unset; /* Reset min-width */
+    }
+    .onsite-export-container > div {
+        width: 100%; /* Adjust spacing div for full width */
+    }
+    .modal-content {
+        max-width: 95%; /* Adjust modal width for very small screens */
+    }
+}

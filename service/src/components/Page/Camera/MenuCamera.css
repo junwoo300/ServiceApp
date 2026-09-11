@@ -1,0 +1,13 @@
+/* src/MenuCamera.css */
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* ปรับการจัดตำแหน่งภาพ */
+  }
+  
+  .gallery-image {
+    width: calc(33.33% - 10px); /* กำหนดให้แสดงภาพ 3 ภาพต่อบรรทัด */
+    height: auto;
+    margin-bottom: 10px; /* กำหนดระยะห่างด้านล่าง */
+  }
+  

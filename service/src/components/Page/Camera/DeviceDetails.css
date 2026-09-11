@@ -1,0 +1,102 @@
+.device-details-container {
+    padding: 20px;
+    max-width: 800px; /* กำหนดความกว้างสูงสุด */
+    margin: 0 auto; /* กำหนดให้อยู่กลาง */
+    border: 1px solid #ccc; /* กำหนดเส้นขอบ */
+    border-radius: 8px; /* มุมมน */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* เงา */
+    background-color: #ffffff; /* สีพื้นหลัง */
+    position: relative; /* ใช้สำหรับจัดตำแหน่งปุ่ม Add */
+}
+
+h2 {
+    text-align: center; /* กำหนดให้หัวข้ออยู่กลาง */
+    color: #333; /* สีตัวอักษร */
+}
+
+.back-button {
+    background-color: #007bff; /* สีพื้นหลังปุ่ม */
+    color: white; /* สีตัวอักษรปุ่ม */
+    border: none; /* ไม่มีเส้นขอบ */
+    border-radius: 4px; /* มุมมน */
+    padding: 10px 15px; /* ระยะ padding */
+    cursor: pointer; /* แสดงเป็น pointer เมื่อ hover */
+    margin-bottom: 20px; /* เว้นระยะด้านล่าง */
+    display: block; /* จัดให้ปุ่มอยู่ในบรรทัดใหม่ */
+    text-align: center; /* กำหนดให้ข้อความอยู่กลาง */
+    font-size: 16px; /* ขนาดตัวอักษร */
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* สีพื้นหลังเมื่อ hover */
+}
+
+.add-button {
+    background-color: #28a745; /* สีพื้นหลังของปุ่ม Add */
+    color: white; /* สีตัวอักษรของปุ่ม Add */
+    border: none; /* ไม่มีเส้นขอบ */
+    border-radius: 4px; /* มุมมน */
+    padding: 10px 15px; /* ระยะ padding */
+    cursor: pointer; /* แสดงเป็น pointer เมื่อ hover */
+    position: absolute; /* ใช้จัดตำแหน่ง */
+    top: 20px; /* ระยะห่างจากด้านบน */
+    right: 20px; /* ระยะห่างจากด้านขวา */
+    font-size: 16px; /* ขนาดตัวอักษร */
+}
+
+.add-button:hover {
+    background-color: #218838; /* สีพื้นหลังเมื่อ hover */
+}
+
+.device-table {
+    width: 100%; /* ทำให้ตารางเต็มความกว้าง */
+    border-collapse: collapse; /* รวมเส้นขอบ */
+    margin-top: 20px; /* เว้นระยะด้านบน */
+}
+
+.device-table th, .device-table td {
+    border: 1px solid #ccc; /* เส้นขอบสำหรับเซลล์ */
+    padding: 10px; /* เว้นระยะในเซลล์ */
+    text-align: left; /* จัดข้อความไปทางซ้าย */
+}
+
+.device-table th {
+    background-color: #f2f2f2; /* สีพื้นหลังของ header */
+    color: #333; /* สีตัวอักษร */
+}
+
+.device-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* สีพื้นหลังของแถวคู่ */
+}
+
+@media (max-width: 600px) {
+    .device-details-container {
+        padding: 15px; /* ลด padding สำหรับหน้าจอเล็ก */
+    }
+
+    .back-button, .add-button {
+        width: 100%; /* ให้ปุ่มเต็มความกว้าง */
+    }
+
+    .add-button {
+        position: static; /* ให้ปุ่มไม่อยู่ที่ตำแหน่ง absolute บนหน้าจอเล็ก */
+        margin-top: 10px; /* เพิ่มระยะห่างด้านบน */
+    }
+}
+
+
+.success-message {
+    color: green;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.ip-link {
+    color: rgb(201, 91, 199); /* เปลี่ยนสีลิงก์ */
+    text-decoration: underline; /* ขีดเส้นใต้ */
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เป็นมือเมื่อชี้ไปที่ลิงก์ */
+}
+
+.ip-link:hover {
+    color: darkblue; /* เปลี่ยนสีเมื่อเลื่อนเมาส์ไปที่ลิงก์ */
+}

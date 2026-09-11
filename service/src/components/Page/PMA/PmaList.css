@@ -1,0 +1,178 @@
+/* สีพื้นฐานของปุ่มและการจัดวาง */
+.btn-home {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.btn-home:hover {
+  background-color: #0056b3;
+}
+
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  margin-right: auto;
+  padding: 8px;
+  font-size: 16px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-add {
+  display: inline-block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #28a745;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-add:hover {
+  background-color: #218838;
+}
+
+.btn-export {
+  display: inline-block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: auto;
+}
+
+.btn-export:hover {
+  background-color: #0056b3;
+}
+
+.btn-import {
+  display: inline-block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #17a2b8;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-import:hover {
+  background-color: #138496;
+}
+
+/* สไตล์ตาราง */
+.table {
+  width: 110%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-left: -120px;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* สีพื้นหลังสำหรับแถวคี่และคู่ */
+.table tr:nth-child(odd) {
+  background-color: #f9f9f9; /* สีพื้นหลังสำหรับแถวคี่ */
+}
+
+.table tr:nth-child(even) {
+  background-color: #ffffff; /* สีพื้นหลังสำหรับแถวคู่ */
+}
+
+.table tr:hover {
+  background-color: #e2e6ea; /* สีพื้นหลังเมื่อโฮเวอร์แถว */
+}
+
+.table td {
+  vertical-align: top;
+}
+
+/* ปุ่มในตาราง */
+.table .btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 5px;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.table .btn-edit {
+  background-color: #007bff;
+}
+
+.table .btn-edit:hover {
+  background-color: #0056b3;
+}
+
+.table .btn-delete {
+  background-color: #dc3545;
+}
+
+.table .btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* สไตล์สำหรับ End Date ที่เลยไปแล้ว */
+.table .expired {
+  background-color: #ffcccc;
+}
+
+/* สไตล์สำหรับ End Date ที่ยังไม่เลย */
+.table .active {
+  background-color: #ccffcc;
+}
+
+.btn-info {
+  background-color: #17a2b8; /* สีพื้นหลัง */
+  color: white; /* สีตัวอักษร */
+  border: none; /* ไม่มีขอบ */
+  padding: 5px 10px; /* ระยะห่างภายใน */
+  margin-left: 5px; /* ระยะห่างจากปุ่มอื่น */
+  cursor: pointer; /* แสดงเป็นรูปมือเมื่อวางเมาส์ */
+}
+
+.btn-info:hover {
+  background-color: #138496; /* เปลี่ยนสีเมื่อวางเมาส์ */
+}

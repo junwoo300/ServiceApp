@@ -1,0 +1,213 @@
+/* General Layout */
+.site-dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 1.5rem;
+}
+
+/* --- Header Bar --- */
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.site-main-title {
+  margin: 0;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.back-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.back-btn:hover {
+  background-color: #e0e0e0;
+}
+
+/* --- Create Button --- */
+.site-create-new-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.site-create-new-btn:hover {
+  background-color: #0056b3;
+}
+
+
+/* Table Blocks - หัวใจของการแก้ไข */
+.site-table-block {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  width: 450px;      /* กำหนดความกว้างคงที่ */
+  flex-grow: 0;      /* ป้องกันไม่ให้กล่องขยาย */
+  flex-shrink: 0;    /* ป้องกันไม่ให้กล่องหด */
+}
+
+.site-type-title {
+  text-align: center;
+  color: #0056b3;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.75rem;
+  font-size: 1.5rem;
+}
+
+/* Table Styling */
+.site-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.site-th, .site-td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+  word-wrap: break-word;
+}
+
+.site-th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+}
+
+/* ความกว้างคอลัมน์สำหรับตารางที่มี 4 คอลัมน์ */
+.site-th:nth-child(1), .site-td:nth-child(1) { width: 40%; } /* ชื่อไซต์ */
+.site-th:nth-child(2), .site-td:nth-child(2) { width: 20%; } /* Ref Code */
+.site-th:nth-child(3), .site-td:nth-child(3) { width: 20%; } /* ค่าเดินทาง */
+.site-th:nth-child(4), .site-td:nth-child(4) { width: 20%; } /* จัดการ */
+
+
+.site-row:hover {
+  background-color: #f1f8ff;
+}
+
+.action-cell {
+  text-align: center;
+  /* ✅ ลบ white-space: nowrap; ออกไป */
+}
+
+/* ✅ แก้ไข Action Buttons */
+.site-edit-btn, .site-delete-btn {
+  border: none;
+  padding: 0.4rem 0.8rem; /* ลดขนาด padding */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: bold;
+  margin: 0 2px; /* ลดระยะห่าง */
+}
+
+.site-edit-btn {
+  background-color: #ffc107;
+  color: #333;
+}
+.site-edit-btn:hover {
+  background-color: #e0a800;
+}
+
+.site-delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+.site-delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* --- Modal Styles --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  width: 90%;
+  max-width: 500px;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #333;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 600;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-save, .btn-cancel {
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-save {
+  background-color: #28a745;
+  color: white;
+}
+.btn-save:hover { opacity: 0.9; }
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+.btn-cancel:hover { opacity: 0.9; }

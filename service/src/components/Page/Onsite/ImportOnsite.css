@@ -1,0 +1,114 @@
+.import-wrapper {
+  font-family: 'Sarabun', sans-serif;
+  padding: 2rem;
+  background-color: #f9fafb;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.import-title {
+  text-align: center;
+  color: #111827;
+  margin-bottom: 2rem;
+}
+
+.import-back-btn {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s;
+}
+
+.import-back-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.import-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.import-template h3, .import-upload-area h3 {
+  margin-top: 0;
+  color: #1f2937;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.import-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.import-column-tag {
+    background-color: #eef2ff;
+    color: #4338ca;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.import-template-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    table-layout: fixed;
+}
+
+.import-template-table th, .import-template-table td {
+    border: 1px solid #e5e7eb;
+    padding: 8px;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.import-template-table th {
+    background-color: #f9fafb;
+}
+
+.import-upload-area input[type="file"] {
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.import-upload-btn {
+    background-color: #16a34a;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.import-upload-btn:hover:not(:disabled) {
+    background-color: #15803d;
+}
+
+.import-upload-btn:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.import-message {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 6px;
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    text-align: center;
+}

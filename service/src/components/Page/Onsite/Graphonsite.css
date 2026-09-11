@@ -1,0 +1,132 @@
+/* Import font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap');
+
+/* Main container for the entire dashboard */
+.graph-wrapper {
+  font-family: 'Sarabun', sans-serif;
+  padding: 1.5rem 2rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Button to go back */
+.graph-back-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s;
+  font-family: 'Sarabun', sans-serif;
+}
+
+.graph-back-btn:hover {
+  background-color: #e9ecef;
+}
+
+/* Header section with title and year selector */
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.graph-header h1 {
+  color: #343a40;
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+/* Year selector dropdown */
+.graph-year-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.graph-year-selector label {
+  font-weight: 500;
+  color: #495057;
+}
+
+.graph-year-selector select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+  font-family: 'Sarabun', sans-serif;
+}
+
+/* Grid layout for all charts */
+.graph-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Individual chart containers */
+.graph-chart-container {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.graph-chart-container.wide {
+  grid-column: span 2;
+}
+
+.graph-chart-container h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #495057;
+  font-size: 1.25rem;
+}
+
+/* Status messages (loading, error) */
+.graph-status-message {
+  text-align: center;
+  padding: 4rem;
+  font-size: 1.5rem;
+  color: #6c757d;
+}
+
+.graph-status-message.error {
+  color: #dc3545;
+}
+
+/* Recharts Customization for tooltips and legends */
+/* Recharts-specific classes for better styling */
+.recharts-legend-item {
+  cursor: pointer;
+}
+
+.recharts-tooltip-wrapper {
+  background: #ffffff !important;
+  border: 1px solid #cccccc !important;
+  border-radius: 4px !important;
+  font-family: 'Sarabun', sans-serif;
+}
+
+/* เพิ่มการปรับแต่งสำหรับแกน Y เพื่อป้องกันการซ้อนทับของชื่อ */
+.recharts-yAxis > g > text {
+    white-space: nowrap; /* ป้องกันการขึ้นบรรทัดใหม่ */
+    overflow: hidden;    /* ซ่อนข้อความที่เกิน */
+    text-overflow: ellipsis; /* แสดง ... เมื่อข้อความถูกซ่อน */
+    font-size: 11px;     /* ปรับขนาดตัวอักษรให้เล็กลงเล็กน้อย */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .graph-grid {
+    grid-template-columns: 1fr;
+  }
+  .graph-chart-container.wide {
+    grid-column: span 1;
+  }
+}

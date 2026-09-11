@@ -1,0 +1,220 @@
+/* ส่วนที่มีอยู่แล้ว */
+.employee-dashboard-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.employee-table-block {
+    width: 100%;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.employee-title {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    color: #333;
+    font-weight: 600;
+    text-align: center;
+}
+
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.employee-th,
+.employee-td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 0.95rem;
+    text-align: left;
+}
+
+.employee-row:hover {
+    background-color: #f1f1f1;
+}
+
+.employee-delete-btn {
+    padding: 6px 12px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.employee-delete-btn:hover {
+    background-color: #d9363e;
+}
+
+/* --- CSS สำหรับปุ่มแก้ไขและ Modal ที่เพิ่มเข้ามา --- */
+
+/* ปุ่มแก้ไข */
+.employee-edit-btn {
+    padding: 6px 12px;
+    background-color: #4CAF50; /* สีเขียว */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-right: 8px; /* เว้นระยะห่างจากปุ่มลบ */
+}
+
+.employee-edit-btn:hover {
+    background-color: #45a049;
+}
+
+/* จัดเรียงปุ่มใน cell ตาราง */
+.action-buttons {
+    display: flex;
+    gap: 5px; /* เพิ่มช่องว่างระหว่างปุ่ม */
+    justify-content: flex-start; /* จัดปุ่มไปทางซ้าย */
+    align-items: center;
+}
+
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* พื้นหลังทึบแสง */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* ให้ Modal อยู่บนสุด */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 450px;
+    animation: fadeIn 0.3s ease-out; /* เพิ่ม animation */
+}
+
+.modal-content h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 1.6rem;
+}
+
+/* Form Group ใน Modal */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+    font-size: 1rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box; /* ให้ padding ไม่เพิ่มขนาดรวม */
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* ปุ่มใน Modal */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end; /* จัดปุ่มไปทางขวา */
+    gap: 15px; /* เว้นระยะห่างระหว่างปุ่ม */
+    margin-top: 25px;
+}
+
+.submit-btn,
+.cancel-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.submit-btn {
+    background-color: #007bff; /* สีน้ำเงิน */
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    background-color: #6c757d; /* สีเทา */
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* Animation สำหรับ Modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* back button */
+.back-btn {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.back-btn:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+
+.back-btn:active {
+    background-color: #d0d0d0;
+    border-color: #aaa;
+}

@@ -1,0 +1,98 @@
+.robot-chart-container {
+    width: 100%;
+    max-width: 900px; /* ✅ ลดความกว้างลงให้พอดี */
+    margin: auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .robot-chart-container h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .recharts-cartesian-axis-tick text {
+    font-size: 14px !important;
+    font-weight: bold;
+    fill: #333;
+    word-break: break-word;
+  }
+  
+  .robot-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .robot-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+  }
+  
+  .robot-modal-content ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .robot-modal-content li {
+    background: #f0f0f0;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+  }
+  
+  .robot-modal-content button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    border: none;
+    background: #d9534f;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .robot-back-button {
+    position: absolute;
+    top: 150px;
+    left: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .robot-back-button:hover {
+    background: #0056b3;
+  }
+
+  .robot-total-count {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+
+  .recharts-cartesian-axis-tick text {
+  font-size: 14px !important;
+  font-weight: bold;
+  fill: #333;
+  overflow: visible;        /* ✅ ป้องกันตัด */
+  white-space: nowrap;      /* ✅ ไม่ตัดบรรทัด */
+}

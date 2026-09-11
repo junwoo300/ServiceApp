@@ -1,0 +1,415 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+.robot-container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .robot-title {
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    font-size: 2.5rem;
+    color: #00eaff; /* สีฟ้าไฟฟ้า */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0px 0px 10px rgba(0, 234, 255, 0.8);
+  }
+  
+  .robot-header {
+    display: flex;
+    justify-content: flex-end; /* ปุ่มอยู่ขวา */
+    margin-bottom: 10px;
+  }
+  
+  .robot-btn-add {
+    background-color: green;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .robot-btn-back {
+    background-color: green;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  
+  .robot-btn-add:hover {
+    background-color: darkgreen;
+  }
+  
+  .robot-table-container {
+    overflow-x: auto;
+  }
+  
+  .robot-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .robot-table th, .robot-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .robot-table th {
+    background-color: #f4f4f4;
+  }
+  
+  /* ป๊อปอัปฟอร์ม */
+  .robot-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .robot-popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .robot-popup-content h2 {
+    text-align: center;
+  }
+  
+  .robot-popup-content input {
+    margin: 5px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .robot-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .robot-popup-buttons button {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .robot-popup-buttons button:first-child {
+    background-color: blue;
+    color: white;
+  }
+  
+  .robot-popup-buttons button:last-child {
+    background-color: red;
+    color: white;
+  }
+
+  .robot-info-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .robot-info-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .robot-info-content h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .robot-repair-table-container {
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .robot-repair-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .robot-repair-table th,
+  .robot-repair-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .robot-repair-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .robot-repair-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .robot-info-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .robot-info-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    font-size: 16px;
+  }
+  
+  .robot-info-buttons button:hover {
+    background-color: darkred;
+  }
+  
+  .no-data-text {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+  }
+  .robot-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .add-repair-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .add-repair-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Popup สำหรับเพิ่ม Repair Record */
+.repair-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .repair-popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 450px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .repair-popup-content h2 {
+    margin-bottom: 15px;
+  }
+  
+  .repair-popup-content input {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .repair-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .repair-popup-buttons button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .repair-popup-buttons button:first-child {
+    background: #28a745;
+    color: white;
+  }
+  
+  .repair-popup-buttons button:last-child {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .repair-popup-buttons button:hover {
+    opacity: 0.8;
+  }
+  
+  .repair-status-select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background: white;
+    cursor: pointer;
+    margin-bottom: 10px; /* เพิ่มระยะห่างด้านล่าง */
+  }
+  
+  .repair-status-select:hover {
+    border-color: #007bff;
+  }
+  
+  .repair-status-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+
+
+
+
+
+
+
+
+
+  .robot-edit-repair-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .robot-edit-repair-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  
+  .robot-edit-repair-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .robot-edit-repair-content h2 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .robot-edit-repair-content label {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .robot-edit-repair-content input,
+  .robot-edit-repair-content select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .robot-edit-repair-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  
+  .robot-edit-repair-buttons button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1;
+    margin: 0 5px;
+  }
+  
+  .robot-edit-repair-buttons button:first-of-type {
+    background: #007bff;
+    color: white;
+  }
+  
+  .robot-edit-repair-buttons button:first-of-type:hover {
+    background: #0056b3;
+  }
+  
+  .robot-edit-repair-buttons button:last-of-type {
+    background: #ccc;
+  }
+  
+  .robot-edit-repair-buttons button:last-of-type:hover {
+    background: #999;
+  }
+  
+
+  .search-container {
+    display: flex;
+    justify-content: center;  /* จัดให้อยู่ตรงกลาง */
+    align-items: center;
+    gap: 10px; /* เว้นระยะ */
+    margin-bottom: 20px;
+  }
+  
+  .search-container select,
+  .search-container input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  

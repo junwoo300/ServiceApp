@@ -1,0 +1,119 @@
+.projectfix-container {
+    width: 100%;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px; /* จำกัดความกว้างของคอนเทนเนอร์ */
+}
+
+.projectfix-table {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* กำหนดให้มี 3 คอลัมน์ */
+    gap: 20px; /* ระยะห่างระหว่างการ์ด */
+    margin-top: 20px;
+}
+
+.projectfix-project-card {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 50px; /* ปรับความสูงการ์ด */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.projectfix-project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.projectfix-project-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.projectfix-project-card p {
+    color: #666;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center; /* จัดปุ่มค้นหาให้ตรงกลาง */
+}
+
+.search-input {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.add-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background-color: #45a049;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.projectfix-header {
+    display: flex;
+    align-items: center; /* จัดไอคอนและข้อความให้อยู่ในแนวเดียวกัน */
+    justify-content: flex-start; /* จัดให้เริ่มต้นที่ซ้ายสุด */
+    gap: 10px; /* ระยะห่างระหว่างไอคอนและข้อความ */
+}
+.site-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center; /* จัดข้อความให้อยู่กลาง */
+    width: 80%;
+}

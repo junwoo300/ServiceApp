@@ -1,0 +1,172 @@
+.img-menu-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 252, 0.96));
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 18px rgba(119, 130, 146, 0.06);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.img-menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 26px rgba(119, 130, 146, 0.1);
+  border-color: rgba(138, 174, 215, 0.2);
+}
+
+.img-menu-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.img-menu-image-wrap {
+  height: 170px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #edf4fb, #e5eef8);
+}
+
+.img-menu-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  background: #edf3f9;
+}
+
+.img-menu-content {
+  padding: 16px 18px 18px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.img-menu-badge {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(138, 174, 215, 0.12);
+  color: #4b78ba;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.img-menu-title {
+  text-align: left;
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
+  font-weight: 800;
+  margin: 12px 0 0;
+  color: #1d2b39;
+  line-height: 1.5;
+}
+
+.img-add img, .img-home img {
+  opacity: 0.7;
+  width: 6%;
+  margin: 0 5%;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.img-add img:hover, .img-home img:hover {
+  opacity: 1;
+}
+
+.appfind {
+  margin-left: 44%;
+}
+
+.tablelist-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 0 auto;
+}
+
+.tablelist-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tablelist-table th, .tablelist-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.tablelist-table th {
+  background-color: #388E3C;
+  color: white;
+  border-bottom: 3px solid #2E7D32;
+}
+
+.tablelist-table tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.tablelist-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.tablelist-table tbody tr:hover {
+  background-color: #e0f7fa;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.Modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgb(220, 80, 80);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 50%;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-file-upload {
+  padding: 8px 12px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.custom-file-upload:hover {
+  background-color: #388E3C;
+}
+
+.upload-label {
+  font-size: 16px;
+  color: #333;
+}
+
+.hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-effect:hover {
+  transform: scale(1.08);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;800&display=swap');

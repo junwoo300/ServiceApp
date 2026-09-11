@@ -1,0 +1,79 @@
+.equipment-dashboard-container {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;        /* ทำให้ตารางขึ้นบรรทัดใหม่ถ้าจอแคบ */
+  gap: 24px;
+  justify-content: flex-start;
+}
+
+.equipment-table-block {
+  flex: 1 1 350px;         /* กำหนดขนาดขั้นต่ำแต่ยืดได้ */
+  max-width: 450px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.equipment-title {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #333;
+  font-weight: 600;
+  text-align: center;
+}
+
+.equipment-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.equipment-th,
+.equipment-td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.equipment-row:hover {
+  background-color: #f0f0f0;
+}
+.equipment-delete-btn {
+  padding: 6px 12px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.equipment-delete-btn:hover {
+  background-color: #d9363e;
+}
+
+.equipment-title2 {
+    font-size: 1.6rem;
+  margin-bottom: 12px;
+  margin-top: 20px;
+  color: #000000;
+  font-weight: 6000;
+  text-align: center;
+}
+
+
+
+.back-btn {
+  background-color: #110303;
+  color: #ccc1c1;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  margin-left: 30px;
+}

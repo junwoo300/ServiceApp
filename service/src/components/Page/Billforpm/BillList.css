@@ -1,0 +1,299 @@
+/* Container */
+.bill-container {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background: #fefefe;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  /* Header */
+  .bill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .bill-title {
+    text-align: center;
+    font-size: 2.2rem;
+    color: #004a99;
+    font-weight: 700;
+    letter-spacing: 1px;
+    flex-grow: 1;
+  }
+  
+  /* Add Button */
+  .bill-btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .bill-btn-add:hover {
+    background-color: #218838;
+  }
+  
+  /* Loading and Error */
+  .bill-loading,
+  .bill-error {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin: 30px 0;
+    color: #cc3300;
+  }
+  
+  /* No Data Text */
+  .bill-no-data {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+    font-size: 1.1rem;
+    margin-top: 20px;
+  }
+  
+  /* Table */
+  .bill-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    font-size: 1rem;
+  }
+  
+  .bill-th {
+    background-color: #0066cc;
+    color: white;
+    font-weight: 700;
+    padding: 14px 18px;
+    text-align: left;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    user-select: none;
+    letter-spacing: 0.03em;
+  }
+  
+  .bill-tr {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease;
+  }
+  
+  .bill-tr:hover {
+    background-color: #e6f0ff;
+    box-shadow: 0 5px 15px rgba(0,102,204,0.2);
+  }
+  
+  .bill-td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+    color: #333;
+    max-width: 180px;
+    word-break: break-word;
+    text-align: center;          /* จัดกลางแนวนอน */
+    vertical-align: middle;      /* จัดกลางแนวตั้ง */
+  }
+  
+  .bill-link {
+    color: #004a99;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .bill-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Row Status Background */
+ .row-pending {
+  background-color: #ffe5e5; /* สีแดงอ่อน */
+  color: #d8000c;
+}
+
+.row-wait {
+  background-color: #fff3cd; /* สีส้มอ่อน */
+  color: #856404;
+}
+
+.row-done {
+  background-color: #d4edda; /* สีเขียวอ่อน */
+  color: #155724;
+}
+
+  
+  /* Action Buttons */
+  .bill-btn-done {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-size: 0.85rem;
+  }
+  
+  .bill-btn-done:hover {
+    background-color: #0b7dda;
+  }
+  
+  .bill-btn-delete {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-size: 0.85rem;
+  }
+  
+  .bill-btn-delete:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Modal Overlay */
+  .bill-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  /* Modal Content */
+  .bill-modal-content {
+    background: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* Modal Close Button */
+  .bill-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.3s ease;
+  }
+  
+  .bill-modal-close:hover {
+    color: #333;
+  }
+  
+  /* Form */
+  .bill-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  /* Inputs and Selects - very small */
+  .bill-form input,
+  .bill-form select {
+    padding: 3px 6px;
+    font-size: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 35px;
+    line-height: 20px;
+    max-width: 100%;
+  }
+  
+  /* Submit Button */
+  .bill-btn-submit {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 7px 15px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    align-self: flex-start;
+    transition: background-color 0.3s ease;
+    margin-top: 6px;
+  }
+  
+  .bill-btn-submit:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Scrollbar for modal if overflow */
+  .bill-modal-content::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .bill-modal-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 3px;
+  }
+  
+  /* Responsive tweak: on small screens, reduce container padding */
+  @media (max-width: 480px) {
+    .bill-container {
+      padding: 15px;
+    }
+    .bill-title {
+      font-size: 1.6rem;
+    }
+    .bill-modal-content {
+      max-width: 90vw;
+    }
+    .bill-btn-add {
+      padding: 6px 12px;
+      font-size: 0.9rem;
+    }
+  }
+  
+  .bill-btn-back {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .bill-btn-back:hover {
+    background-color: #ddd;
+  }
+  
