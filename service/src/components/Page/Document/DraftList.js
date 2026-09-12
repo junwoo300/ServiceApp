@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import './DraftList.css';
 import Select from 'react-select';
@@ -9,6 +9,10 @@ const DraftList = () => {
   const [groupedDrafts, setGroupedDrafts] = useState({});
   const [siteOptions, setSiteOptions] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [notice, setNotice] = useState('');
   const [formData, setFormData] = useState({
     siteName: '',
     recipientEmails: '',
@@ -17,27 +21,26 @@ const DraftList = () => {
     messageTemplate: ''
   });
 
-  useEffect(() => {
-    fetchDrafts();
-  }, []);
-
-  const fetchDrafts = async () => {
+  const fetchDrafts = useCallback(async () => {
     try {
 
 
       const res = await axios.get(`${process.env.REACT_APP_API}/allmail`);
       const data = res.data;
       setDrafts(data);
-      const grouped = groupBySite(data);
-      setGroupedDrafts(grouped);
-      setSiteOptions(Object.keys(grouped));
-      if (Object.keys(grouped).length > 0) {
-        setSelectedSite(Object.keys(grouped)[0]);
-      }
     } catch (error) {
       console.error('Error fetching drafts:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => { fetchDrafts(); }, [fetchDrafts]);
+
+  useEffect(() => {
+    const grouped = groupBySite(drafts);
+    setGroupedDrafts(grouped);
+    setSiteOptions(Object.keys(grouped));
+    setSelectedSite(current => grouped[current] ? current : Object.keys(grouped)[0] || '');
+  }, [drafts]);
 
   const groupBySite = (data) => {
     return data.reduce((acc, draft) => {
@@ -76,11 +79,23 @@ const DraftList = () => {
   };
 
   const handleAddClick = () => {
+    handleCloseModal();
+    setNotice('');
     setShowModal(true);
+  };
+
+  const handleEditClick = draft => {
+    setEditingId(draft._id);
+    setFormData({ siteName: draft.siteName || '', recipientEmails: (draft.recipientEmails || []).join(', '),
+      ccEmails: (draft.ccEmails || []).join(', '), subjectTemplate: draft.subjectTemplate || '',
+      messageTemplate: draft.messageTemplate || '' });
+    setFormError(''); setNotice(''); setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setEditingId(null);
+    setFormError('');
     setFormData({
       siteName: '',
       recipientEmails: '',
@@ -92,17 +107,29 @@ const DraftList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (saving) return;
+    setSaving(true); setFormError('');
     try {
-      await axios.post(`${process.env.REACT_APP_API}/createmail`, {
+      const payload = {
         ...formData,
-        recipientEmails: formData.recipientEmails.split(',').map((email) => email.trim()),
-        ccEmails: formData.ccEmails ? formData.ccEmails.split(',').map((email) => email.trim()) : []
-      });
+        siteName: formData.siteName.trim(),
+        recipientEmails: formData.recipientEmails.split(',').map(email => email.trim()).filter(Boolean),
+        ccEmails: formData.ccEmails.split(',').map(email => email.trim()).filter(Boolean)
+      };
+      if (!payload.siteName || !payload.subjectTemplate.trim() || !payload.messageTemplate.trim() || !payload.recipientEmails.length) {
+        setFormError('กรุณากรอกไซต์ ผู้รับ หัวข้อ และเนื้อหาให้ครบ'); return;
+      }
+      const response = editingId
+        ? await axios.put(`${process.env.REACT_APP_API}/updatemail/${editingId}`, payload)
+        : await axios.post(`${process.env.REACT_APP_API}/createmail`, payload);
+      if (!response.data?._id) { setFormError('ไม่พบร่างเมลที่จะบันทึก กรุณาโหลดรายการใหม่'); return; }
+      setDrafts(current => editingId ? current.map(draft => draft._id === editingId ? response.data : draft) : [...current, response.data]);
+      setSelectedSite(response.data.siteName || 'ไม่ระบุไซต์');
+      setNotice(editingId ? 'บันทึกการแก้ไขร่างเมลแล้ว' : 'เพิ่มร่างเมลแล้ว');
       handleCloseModal();
-      fetchDrafts();
     } catch (error) {
-      console.error('Error creating draft:', error);
-    }
+      setFormError('บันทึกไม่สำเร็จ กรุณาลองใหม่ ข้อมูลที่กรอกยังอยู่ครบ');
+    } finally { setSaving(false); }
   };
 
   return (
@@ -114,9 +141,12 @@ const DraftList = () => {
         <button className="mail-add-btn" onClick={handleAddClick}>+ เพิ่มข้อมูล</button>
       </div>
 
+      {notice && <p role="status">{notice}</p>}
+
       <div className="mail-filter">
         <label htmlFor="siteSelect">เลือกไซต์:</label>
         <Select
+          inputId="siteSelect"
           options={siteOptions.map(site => ({ value: site, label: site }))}
           value={{ value: selectedSite, label: selectedSite }}
           onChange={(selectedOption) => setSelectedSite(selectedOption.value)}
@@ -136,6 +166,7 @@ const DraftList = () => {
               <div className="mail-draft-header">
                 <div className="mail-draft-subject">{draft.subjectTemplate}</div>
                 <div className="mail-draft-actions">
+                  <button className="mail-edit-btn" onClick={() => handleEditClick(draft)}>แก้ไข</button>
                   <button className="mail-draft-btn" onClick={() => handleDraftClick(draft)}>✉️ ร่างเมล</button>
                   <button className="mail-delete-btn" onClick={() => handleDeleteDraft(draft._id)}>🗑️ ลบ</button>
                 </div>
@@ -158,27 +189,28 @@ const DraftList = () => {
 
       {showModal && (
         <div className="mail-modal-overlay">
-          <div className="mail-modal">
-            <h3>เพิ่มร่างเมลใหม่</h3>
+          <div className="mail-modal" role="dialog" aria-modal="true" aria-labelledby="mail-editor-title">
+            <h3 id="mail-editor-title">{editingId ? 'แก้ไขร่างเมล' : 'เพิ่มร่างเมลใหม่'}</h3>
+            {formError && <p role="alert">{formError}</p>}
             <form onSubmit={handleSubmit} className="mail-form">
-              <label>Site Name:</label>
-              <input type="text" value={formData.siteName} onChange={(e) => setFormData({ ...formData, siteName: e.target.value })} required />
+              <label htmlFor="mail-siteName">Site Name:</label>
+              <input type="text" id="mail-siteName" disabled={saving} autoFocus value={formData.siteName} onChange={(e) => setFormData({ ...formData, siteName: e.target.value })} required />
 
-              <label>Recipient Emails (คั่นด้วย ,):</label>
-              <input type="text" value={formData.recipientEmails} onChange={(e) => setFormData({ ...formData, recipientEmails: e.target.value })} required />
+              <label htmlFor="mail-recipientEmails">Recipient Emails (คั่นด้วย ,):</label>
+              <input type="text" id="mail-recipientEmails" disabled={saving} value={formData.recipientEmails} onChange={(e) => setFormData({ ...formData, recipientEmails: e.target.value })} required />
 
-              <label>CC Emails (คั่นด้วย ,):</label>
-              <input type="text" value={formData.ccEmails} onChange={(e) => setFormData({ ...formData, ccEmails: e.target.value })} />
+              <label htmlFor="mail-ccEmails">CC Emails (คั่นด้วย ,):</label>
+              <input type="text" id="mail-ccEmails" disabled={saving} value={formData.ccEmails} onChange={(e) => setFormData({ ...formData, ccEmails: e.target.value })} />
 
-              <label>Subject Template:</label>
-              <input type="text" value={formData.subjectTemplate} onChange={(e) => setFormData({ ...formData, subjectTemplate: e.target.value })} required />
+              <label htmlFor="mail-subjectTemplate">Subject Template:</label>
+              <input type="text" id="mail-subjectTemplate" disabled={saving} value={formData.subjectTemplate} onChange={(e) => setFormData({ ...formData, subjectTemplate: e.target.value })} required />
 
-              <label>Message Template:</label>
-              <textarea rows="4" value={formData.messageTemplate} onChange={(e) => setFormData({ ...formData, messageTemplate: e.target.value })} required />
+              <label htmlFor="mail-messageTemplate">Message Template:</label>
+              <textarea rows="4" id="mail-messageTemplate" disabled={saving} value={formData.messageTemplate} onChange={(e) => setFormData({ ...formData, messageTemplate: e.target.value })} required />
 
               <div className="mail-modal-buttons">
-                <button type="submit">บันทึก</button>
-                <button type="button" onClick={handleCloseModal}>ยกเลิก</button>
+                <button type="submit" disabled={saving}>{saving ? 'กำลังบันทึก…' : 'บันทึก'}</button>
+                <button type="button" disabled={saving} onClick={handleCloseModal}>ยกเลิก</button>
               </div>
             </form>
           </div>

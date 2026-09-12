@@ -96,6 +96,10 @@
   align-items: center;
   margin-bottom: 8px;
 }
+.mail-draft-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.mail-edit-btn { background: #edf5ff; color: #1763a6; border: 1px solid #bed7ee; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: 600; }
+.mail-edit-btn:hover { background: #dcecff; }
+.mail-form button:disabled { opacity: .6; cursor: wait; }
 
 .mail-draft-subject {
   font-size: 18px;
@@ -165,6 +169,10 @@
   padding: 24px;
   border-radius: 8px;
   width: 500px;
+  max-width: calc(100vw - 32px);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
