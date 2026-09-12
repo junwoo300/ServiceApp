@@ -97,9 +97,11 @@ const DeviceDetails = () => {
 
     return (
         <div className="device-details-container">
-            <button className="back-button" onClick={handleBack}>Back</button>
+            <div className="device-header">
+            <button className="device-back-button" onClick={handleBack}>Back</button>
             <h2>Device Details</h2>
-            <button className="add-button" onClick={handleAdd}>Add</button> {/* ปุ่มเพิ่ม */}
+            <button className="device-add-button" onClick={handleAdd}>Add</button> {/* ปุ่มเพิ่ม */}
+            </div>
             {devices.length > 0 ? (
                 <table className="device-table">
                     <thead>
@@ -138,9 +140,9 @@ const DeviceDetails = () => {
             )}
 
             {isModalOpen && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+                <div className="device-modal">
+                    <div className="device-modal-content">
+                        <span className="device-close" onClick={() => setIsModalOpen(false)}>&times;</span>
                         <h2>Add New Device</h2>
                         <input
                             type="text"

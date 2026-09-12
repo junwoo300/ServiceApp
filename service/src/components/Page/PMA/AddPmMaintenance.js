@@ -50,7 +50,7 @@ const AddPmMaintenance = () => {
     <div className="form-container">
       <h1 className="form-title">Add PM Maintenance</h1>
       <form className="maintenance-form" onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="maintenance-add-form-group">
           <label>Project Name:</label>
           <input
             type="text"
@@ -61,7 +61,7 @@ const AddPmMaintenance = () => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="maintenance-add-form-group">
           <label>Description:</label>
           <textarea
             name="description"
@@ -73,7 +73,7 @@ const AddPmMaintenance = () => {
 
         {formData.entries.map((entry, index) => (
           <div key={index} className="entry-section">
-            <div className="form-group">
+            <div className="maintenance-add-form-group">
               <label>รายชื่อผู้เข้าดำเนินการ:</label>
               <input
                 type="text" // เปลี่ยนเป็น text
@@ -84,7 +84,7 @@ const AddPmMaintenance = () => {
                 className="input-field"
               />
             </div>
-            <div className="form-group">
+            <div className="maintenance-add-form-group">
               <label>Date:</label>
               <input
                 type="date"

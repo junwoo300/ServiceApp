@@ -19,11 +19,11 @@
   flex-direction: column;
 }
 
-.form-group {
+.maintenance-add-form-group {
   margin-bottom: 20px;
 }
 
-.form-group label {
+.maintenance-add-form-group label {
   font-size: 16px;
   color: #555;
   margin-bottom: 8px;
@@ -50,7 +50,7 @@ textarea.input-field {
   border: 1px solid #ddd;
 }
 
-.btn-add {
+.maintenance-add-btn-add {
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
@@ -60,7 +60,7 @@ textarea.input-field {
   margin-bottom: 20px;
 }
 
-.btn-add:hover {
+.maintenance-add-btn-add:hover {
   background-color: #0056b3;
 }
 

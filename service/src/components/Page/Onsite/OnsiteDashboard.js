@@ -268,7 +268,7 @@ const OnsiteDashboard = () => {
     return (
         <>
             <div className="onsite-dashboard-wrapper">
-                <button className="mail-back-btn" onClick={() => window.history.back()}>🔙 กลับ</button>
+                <button className="onsite-record-mail-back-btn" onClick={() => window.history.back()}>🔙 กลับ</button>
                 <h2 className="onsite-dashboard-title">Onsite Records</h2>
 
                 <div className="onsite-controls-container">
@@ -409,20 +409,20 @@ const OnsiteDashboard = () => {
 
             {/* Edit Modal สำหรับ Onsite Record */}
             {showEditModal && currentRecord && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
+                <div className="onsite-record-modal-overlay">
+                    <div className="onsite-record-modal-content">
                         <h3>แก้ไข Onsite Record</h3>
                         <form onSubmit={handleUpdateRecord}>
                             {/* ฟิลด์ที่แก้ไขได้ */}
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="editOnsiteDate">วันที่:</label>
                                 <input type="date" id="editOnsiteDate" value={editOnsiteDate} onChange={e => setEditOnsiteDate(e.target.value)} required />
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="editScope">ขอบเขตของงาน:</label>
                                 <textarea id="editScope" value={editScope} onChange={e => setEditScope(e.target.value)} rows="3"></textarea>
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="editSelectedEmployee">พนักงาน:</label>
                                 <select
                                     id="editSelectedEmployee"
@@ -435,60 +435,60 @@ const OnsiteDashboard = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="editTravelCost">ค่าเดินทาง:</label>
                                 <input type="number" id="editTravelCost" value={editTravelCost} onChange={e => setEditTravelCost(e.target.value)} min="0" step="0.01" />
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="editShipping">ค่าขนส่ง:</label>
                                 <input type="number" id="editShipping" value={editShipping} onChange={e => setEditShipping(e.target.value)} min="0" step="0.01" />
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="editTotalEquipmentCost">ค่าอุปกรณ์รวม:</label>
                                 <input type="number" id="editTotalEquipmentCost" value={editTotalEquipmentCost} onChange={e => setEditTotalEquipmentCost(e.target.value)} min="0" step="0.01" />
                             </div>
 
                             {/* ฟิลด์ที่แสดงผลเท่านั้น (Read-only) */}
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="displaySelectedBy">ดำเนินการโดย (อ่านอย่างเดียว):</label>
                                 <input type="text" id="displaySelectedBy" value={displaySelectedBy} readOnly />
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="displaySiteName">ไซต์งาน (อ่านอย่างเดียว):</label>
                                 <input type="text" id="displaySiteName" value={displaySiteName} readOnly />
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="displayRefcode">Ref Code (อ่านอย่างเดียว):</label>
                                 <input type="text" id="displayRefcode" value={displayRefcode} readOnly />
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="displayType">ประเภท (อ่านอย่างเดียว):</label>
                                 <input type="text" id="displayType" value={displayType} readOnly />
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="displayRobotName">ชื่อหุ่นยนต์ (อ่านอย่างเดียว):</label>
                                 <input type="text" id="displayRobotName" value={displayRobotName} readOnly />
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="displayEquipmentNames">อุปกรณ์ (อ่านอย่างเดียว):</label>
                                 <textarea id="displayEquipmentNames" value={displayEquipmentNames} readOnly rows="3"></textarea>
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="displayDetails">รายละเอียด (อ่านอย่างเดียว):</label>
                                 <textarea id="displayDetails" value={displayDetails} readOnly rows="3"></textarea>
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="displayTotalLaborCost">ค่าแรงรวม (อ่านอย่างเดียว):</label>
                                 <input type="number" id="displayTotalLaborCost" value={displayTotalLaborCost} readOnly />
                             </div>
-                            <div className="form-group">
+                            <div className="onsite-record-form-group">
                                 <label htmlFor="displayGrandTotal">ค่ารวมทั้งหมด (อ่านอย่างเดียว):</label>
                                 <input type="number" id="displayGrandTotal" value={displayGrandTotal} readOnly />
                             </div>
 
-                            <div className="modal-actions">
-                                <button type="submit" className="submit-btn">บันทึก</button>
-                                <button type="button" className="cancel-btn" onClick={() => setShowEditModal(false)}>ยกเลิก</button>
+                            <div className="onsite-record-modal-actions">
+                                <button type="submit" className="onsite-record-submit-btn">บันทึก</button>
+                                <button type="button" className="onsite-record-cancel-btn" onClick={() => setShowEditModal(false)}>ยกเลิก</button>
                             </div>
                         </form>
                     </div>

@@ -28,6 +28,7 @@ import DeviceDetails from './components/Page/Camera/DeviceDetails';
 import Menurobotlist from './components/Page/Robot/Menurobotlist';
 import Robotwarehouse from './components/Page/Robot/Robotwarehouse';
 import RobotChart from './components/Page/Robot/RobotChart';
+import RobotStatus from './components/Page/Robot/RobotStatus';
 
 //Doc
 import Menudoc from './components/Page/Document/Menudoc';
@@ -59,79 +60,105 @@ import ImportOnsite from './components/Page/Onsite/ImportOnsite';
 import CaseSupport from './components/Page/CaseSupport/CaseSupport';
 
 import LoginPage from './LoginPage';
+import { api } from './apiClient';
+import { FiGrid, FiPackage, FiCalendar, FiCamera, FiCpu, FiFileText, FiBookOpen, FiClipboard, FiMapPin, FiHeadphones, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     document.title = "Service APP🛠️";
 
     // เช็กว่าเคยล็อกอินหรือยังจาก sessionStorage
-    const loggedIn = sessionStorage.getItem('isAuthenticated');
-    if (loggedIn === 'true') {
-      setIsAuthenticated(true);
-    }
+    let active = true;
+    sessionStorage.removeItem('isAuthenticated');
+    const expire = () => setIsAuthenticated(false);
+    window.addEventListener('session-expired', expire);
+    api.get('/auth/session')
+      .then(() => { if (active) setIsAuthenticated(true); })
+      .catch(() => { if (active) setIsAuthenticated(false); })
+      .finally(() => { if (active) setCheckingSession(false); });
+    return () => { active = false; window.removeEventListener('session-expired', expire); };
   }, []);
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    sessionStorage.setItem('isAuthenticated', 'true'); // บันทึกลง sessionStorage
+  };
+
+  const handleLogout = async () => {
+    try {
+      await api.post('/auth/logout');
+      setIsAuthenticated(false);
+    } catch {
+      alert('ออกจากระบบไม่สำเร็จ กรุณาลองใหม่');
+    }
   };
 
   const navItems = [
-    { label: 'Dashboard', path: '/' },
-    { label: 'Warehouse', path: '/Wherehouse' },
-    { label: 'PMA', path: '/pmapage' },
-    { label: 'Camera', path: '/CameraProlist' },
-    { label: 'Robot', path: '/Menurobotlist' },
-    { label: 'Document', path: '/Menudoc' },
-    { label: 'Knowledge', path: '/Projectfix' },
-    { label: 'PM', path: '/Mainpm' },
-    { label: 'Onsite', path: '/Onsite' },
-    { label: 'Case Support', path: '/CaseSupport' },
+    { label: 'ภาพรวม', path: '/', icon: FiGrid, group: 'WORKSPACE' },
+    { label: 'งาน Onsite', path: '/Onsite', icon: FiMapPin, group: 'งานบริการ' },
+    { label: 'Case Support', path: '/CaseSupport', icon: FiHeadphones },
+    { label: 'งาน PM', path: '/Mainpm', icon: FiClipboard },
+    { label: 'สัญญา PMA', path: '/pmapage', icon: FiCalendar },
+    { label: 'คลังอุปกรณ์', path: '/Wherehouse', icon: FiPackage, group: 'อุปกรณ์และระบบ' },
+    { label: 'Camera', path: '/CameraProlist', icon: FiCamera },
+    { label: 'Robot', path: '/Menurobotlist', icon: FiCpu },
+    { label: 'เอกสาร', path: '/Menudoc', icon: FiFileText, group: 'แหล่งข้อมูล' },
+    { label: 'Knowledge', path: '/Projectfix', icon: FiBookOpen },
   ];
 
+  if (checkingSession) return <div className="page-container">กำลังตรวจสอบการเข้าสู่ระบบ...</div>;
   if (!isAuthenticated) {
     return <LoginPage onLogin={handleLogin} />;
   }
 
   return (
     <BrowserRouter>
-      <div className="admin-shell">
-        <aside className="admin-sidebar">
+      <div className={`admin-shell${menuOpen ? ' menu-open' : ''}`}>
+        <a className="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
+        {menuOpen && <button className="sidebar-backdrop" aria-label="ปิดเมนู" onClick={() => setMenuOpen(false)} />}
+        <aside className="admin-sidebar" id="main-navigation">
           <div className="brand-block">
-            <div className="brand-mark">S</div>
+            <div className="brand-mark"><FiGrid /></div>
             <div>
               <div className="brand-name">Service APP</div>
-              <div className="brand-subtitle">Operations Hub</div>
+              <div className="brand-subtitle">TEAM WORKSPACE</div>
             </div>
           </div>
 
-          <nav className="sidebar-nav">
-            {navItems.map(({ label, path }) => (
+          <nav className="sidebar-nav" aria-label="เมนูหลัก">
+            {navItems.map(({ label, path, icon: Icon, group }) => (
+              <div key={path}>
+              {group && <div className="nav-group-label">{group}</div>}
               <NavLink
                 key={label}
                 to={path}
+                end={path === '/'}
+                onClick={() => setMenuOpen(false)}
                 className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
               >
-                <span className="nav-dot" />
+                <Icon aria-hidden="true" />
                 {label}
               </NavLink>
+              </div>
             ))}
           </nav>
 
           <div className="sidebar-footer">
-            <div className="mini-stat">
-              <span>Live</span>
-              <strong>24/7</strong>
-            </div>
+            <div className="workspace-label"><span className="workspace-avatar">ST</span><div><strong>Service Team</strong><small>พื้นที่ทำงานของทีม</small></div></div>
+            <button type="button" onClick={handleLogout}><FiLogOut /> ออกจากระบบ</button>
           </div>
         </aside>
 
         <div className="app-main-panel">
-          <Header />
+          <div className="app-topbar">
+            <button type="button" className="menu-toggle" aria-label={menuOpen ? 'ปิดเมนู' : 'เปิดเมนู'} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <FiX /> : <FiMenu />}</button>
+            <Header />
+          </div>
 
-          <main className="content-area">
+          <main className="content-area" id="main-content" tabIndex={-1}>
             <Routes>
               <Route path='/' element={<Menulist />} />
               <Route path='/Wherehouse' element={<FormProduct />} />
@@ -156,6 +183,7 @@ function App() {
               <Route path='Menurobotlist' element={<Menurobotlist />} />
               <Route path='Robotwarehouse' element={<Robotwarehouse />} />
               <Route path='RobotChart' element={<RobotChart />} />
+              <Route path='RobotStatus' element={<RobotStatus />} />
 
 
               <Route path='Menudoc' element={<Menudoc />} />

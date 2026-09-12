@@ -1,10 +1,10 @@
-.site-table {
+.camera-site-site-table {
     display: flex;
     flex-direction: column; /* จัดเรียงเป็นแนวตั้ง */
     margin: 20px; /* ระยะห่างจากด้านนอก */
 }
 
-.site-row {
+.camera-site-site-row {
     display: flex; /* ใช้ flex เพื่อให้สามารถจัดเรียงช่องในแถว */
     justify-content: center; /* จัดกึ่งกลางช่องในแถว */
     margin: 10px 0; /* ระยะห่างระหว่างแถว */
@@ -31,7 +31,7 @@
     text-align: center;
 }
 
-.back-button {
+.camera-site-back-button {
     margin: 10px; /* ระยะห่างจากขอบ */
     padding: 10px 15px; /* ขนาดของปุ่ม */
     background-color: #007bff; /* สีพื้นหลัง */
@@ -42,11 +42,11 @@
     font-size: 16px; /* ขนาดฟอนต์ */
 }
 
-.back-button:hover {
+.camera-site-back-button:hover {
     background-color: #0056b3; /* สีเมื่อเอาเมาส์ไปชี้ */
 }
 
-.modal {
+.camera-site-modal {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,19 +59,19 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+.camera-site-modal-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
     width: 400px;
 }
 
-.close {
+.camera-site-close {
     cursor: pointer;
     float: right;
 }
 
-.add-button {
+.camera-site-add-button {
    
     padding: 10px 20px; /* ขนาดของปุ่ม */
     background-color: #7989f0; /* สีพื้นหลัง */
@@ -81,18 +81,31 @@
     cursor: pointer; /* เปลี่ยนเคอร์เซอร์เป็น pointer เมื่อชี้ไปที่ปุ่ม */
 }
 
-.add-button:hover {
+.camera-site-add-button:hover {
     background-color: #45a049; /* สีเมื่อวางเมาส์อยู่บนปุ่ม */
 }
 
 
-.button-container {
+.camera-site-button-container {
+    flex-wrap: wrap;
+    gap: 12px;
     display: flex;
     justify-content: space-between; /* จัดให้มีระยะห่างระหว่างปุ่ม */
     margin-bottom: 20px; /* เว้นระยะห่างจากส่วนถัดไป */
 }
 
-.back-button,
-.add-button {
+.camera-site-back-button,
+.camera-site-add-button {
     margin: 0 10px; /* เว้นระยะห่างซ้ายขวาของปุ่ม */
 }
+
+.camera-site-modal { padding: 16px; }
+.camera-site-modal-content {
+  position: relative;
+  max-width: 100%;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding-top: 40px;
+}
+.camera-site-close { position: absolute; top: 10px; right: 15px; float: none; font-size: 24px; }
+.camera-site-modal-content input { width: 100%; margin-bottom: 12px; }

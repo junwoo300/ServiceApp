@@ -1,3 +1,4 @@
+require('./Config/env');
 const { Telegraf, Markup } = require('telegraf');
 const mongoose = require('mongoose');
 
@@ -14,8 +15,8 @@ const {
     RobotData
 } = require('./Models/Onsitemodels');
 
-const TELEGRAM_TOKEN = '8428255341:AAFPRp8jJ4h0lQpn0kNveVP6y6d9cQ-vSWo'; // ใส่ Token ของคุณ
-const TELEGRAM_CHAT_ID = '-5174439730';      // ใส่ Chat ID ของคุณ 
+const TELEGRAM_TOKEN = process.env.TELEGRAM_ONSITE_TOKEN; // ใส่ Token ของคุณ
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_ONSITE_CHAT_ID;      // ใส่ Chat ID ของคุณ 
 
 const bot = new Telegraf(TELEGRAM_TOKEN);
 const sessions = {};

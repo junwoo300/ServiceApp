@@ -21,7 +21,7 @@
   font-size: 1.8rem;
 }
 
-.back-btn {
+.onsite-site-back-btn {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   cursor: pointer;
@@ -29,7 +29,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-.back-btn:hover {
+.onsite-site-back-btn:hover {
   background-color: #e0e0e0;
 }
 
@@ -135,7 +135,7 @@
 }
 
 /* --- Modal Styles --- */
-.modal-overlay {
+.onsite-site-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -148,7 +148,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+.onsite-site-modal-content {
   background-color: white;
   padding: 2rem 2.5rem;
   border-radius: 8px;
@@ -157,17 +157,17 @@
   max-width: 500px;
 }
 
-.modal-content h2 {
+.onsite-site-modal-content h2 {
   margin-top: 0;
   color: #333;
   text-align: center;
 }
 
-.form-group {
+.onsite-site-form-group {
   margin-bottom: 1.5rem;
 }
 
-.form-group label {
+.onsite-site-form-group label {
   display: block;
   margin-bottom: 0.5rem;
   color: #555;
@@ -183,7 +183,7 @@
   box-sizing: border-box;
 }
 
-.modal-actions {
+.onsite-site-modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
@@ -211,3 +211,7 @@
   color: white;
 }
 .btn-cancel:hover { opacity: 0.9; }
+
+.onsite-site-modal-overlay { padding: 16px; }
+.onsite-site-modal-content { max-height: calc(100dvh - 32px); overflow-y: auto; }
+.onsite-site-modal-actions { flex-wrap: wrap; }

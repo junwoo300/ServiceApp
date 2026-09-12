@@ -1,3 +1,4 @@
+require('./Config/env');
 // เทสข้อความมา แล้วบันทึกลง ดาต้าเบส billforpm สร้างบิล | ค่าแรงช่างแอร์ | https://imgur.com/a/xxxxx | https://imgur.com/a/yyyyy
 
 const TelegramBot = require('node-telegram-bot-api');
@@ -7,7 +8,7 @@ const connectDB = require('./Config/Db');
 // เรียกเชื่อม MongoDB
 connectDB();
 
-const TELEGRAM_TOKEN = '8428255341:AAFPRp8jJ4h0lQpn0kNveVP6y6d9cQ-vSWo';
+const TELEGRAM_TOKEN = process.env.TELEGRAM_BILL_TOKEN;
 const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
 
 bot.on('message', async (msg) => {

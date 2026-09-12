@@ -3,9 +3,8 @@
   }
   
   .add-project-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    margin-left: auto;
+    flex-shrink: 0;
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -39,7 +38,7 @@
     border-radius: 5px;
   }
   
-  .modal {
+  .camera-project-modal {
     display: flex;
     position: fixed;
     z-index: 1000;
@@ -52,7 +51,7 @@
     align-items: center;
   }
   
-  .modal-content {
+  .camera-project-modal-content {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
@@ -60,7 +59,7 @@
     position: relative;
   }
   
-  .close {
+  .camera-project-close {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -68,19 +67,39 @@
     cursor: pointer;
   }
   
-  .img-add img{
+  .camera-project-img-add img{
     opacity: 0.5;
-    width: 5%;
-    margin-left: 5%;
-    margin-top: 1%;
+    width: 32px;
+    height: 32px;
   }
 
 
-  .search-input {
+  .camera-project-search-input {
     margin: 20px 0; /* เพิ่มช่องว่างด้านบนและล่าง 20px */
     padding: 10px;
-    width: 300px;
+    width: min(100%, 300px);
     border-radius: 5px;
     border: 1px solid #ccc;
     text-align: center;
   }
+
+.camera-project-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.camera-project-header h2 { flex: 1 1 180px; margin: 0; }
+.camera-project-modal { padding: 16px; }
+.camera-project-modal-content {
+  max-width: 100%;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding-top: 40px;
+}
+.camera-project-modal-content input { display: block; width: 100%; margin-bottom: 12px; }
+@media (max-width: 600px) {
+  .camera-project-header .add-project-button { width: 100%; margin-left: 0; }
+  .project-card { width: 100%; margin: 10px 0; }
+}

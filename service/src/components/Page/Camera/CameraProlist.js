@@ -68,12 +68,17 @@ const CameraProList = () => {
 
   return (
     <div className="camera-pro-list">
-      <div className='img-add'>
+      <div className="camera-project-header">
+      <div className='camera-project-img-add'>
         <a href='/'>
           <img src="/imagenakub/home.png" alt="Home" />
         </a>
       </div>
-      <center> <h2>Projects Intrusion</h2></center>
+      <h2>Projects Intrusion</h2>
+      <button type="button" className="add-project-button" onClick={() => setIsModalOpen(true)}>
+        Add Project
+      </button>
+      </div>
 
       {/* Input สำหรับค้นหา */}
       <center><input
@@ -81,12 +86,9 @@ const CameraProList = () => {
         placeholder="Search by project name "
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="search-input"
+        className="camera-project-search-input"
       /> </center>
 
-      <button className="add-project-button" onClick={() => setIsModalOpen(true)}>
-        Add Project
-      </button>
 
       <div className="project-container">
         {/* ใช้ filteredProjects แทน projects */}
@@ -104,9 +106,9 @@ const CameraProList = () => {
       </div>
 
       {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+        <div className="camera-project-modal">
+          <div className="camera-project-modal-content">
+            <span className="camera-project-close" onClick={() => setIsModalOpen(false)}>&times;</span>
             <h2>Add New Project</h2>
             <input
               type="text"

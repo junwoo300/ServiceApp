@@ -103,7 +103,7 @@ const SiteDashboard = () => {
     return (
         <div>
             <div className="header-bar">
-                <button className="back-btn" onClick={() => window.history.back()}>🔙 กลับ</button>
+                <button className="onsite-site-back-btn" onClick={() => window.history.back()}>🔙 กลับ</button>
                 <h2 className='site-main-title'>รายการไซต์งาน Onsite</h2>
                 <button className="site-create-new-btn" onClick={handleOpenCreateModal}>
                     ✚ เพิ่มไซต์ใหม่
@@ -145,16 +145,16 @@ const SiteDashboard = () => {
 
             {/* --- Modal สำหรับแก้ไข --- */}
             {isEditing && currentSite && (
-                <div className="modal-overlay" onClick={handleCancelEdit}>
-                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <div className="onsite-site-modal-overlay" onClick={handleCancelEdit}>
+                    <div className="onsite-site-modal-content" onClick={e => e.stopPropagation()}>
                         <h2>แก้ไขข้อมูลไซต์</h2>
                         <form onSubmit={handleUpdateSubmit}>
-                            <div className="form-group"><label>ชื่อไซต์</label><input type="text" name="name" className="form-input" value={currentSite.name} onChange={handleEditInputChange} required /></div>
-                            <div className="form-group"><label>ประเภท</label><input type="text" name="type" className="form-input" value={currentSite.type} onChange={handleEditInputChange} required /></div>
+                            <div className="onsite-site-form-group"><label>ชื่อไซต์</label><input type="text" name="name" className="form-input" value={currentSite.name} onChange={handleEditInputChange} required /></div>
+                            <div className="onsite-site-form-group"><label>ประเภท</label><input type="text" name="type" className="form-input" value={currentSite.type} onChange={handleEditInputChange} required /></div>
                             {/* ✅ เพิ่มช่องแก้ไข Refcode */}
-                            <div className="form-group"><label>Ref Code</label><input type="text" name="Refcode" className="form-input" value={currentSite.Refcode} onChange={handleEditInputChange} /></div>
-                            <div className="form-group"><label>ค่าเดินทาง (บาท)</label><input type="number" name="travelCost" className="form-input" value={currentSite.travelCost} onChange={handleEditInputChange} required min="0"/></div>
-                            <div className="modal-actions"><button type="submit" className="btn-save">บันทึกการเปลี่ยนแปลง</button><button type="button" className="btn-cancel" onClick={handleCancelEdit}>ยกเลิก</button></div>
+                            <div className="onsite-site-form-group"><label>Ref Code</label><input type="text" name="Refcode" className="form-input" value={currentSite.Refcode} onChange={handleEditInputChange} /></div>
+                            <div className="onsite-site-form-group"><label>ค่าเดินทาง (บาท)</label><input type="number" name="travelCost" className="form-input" value={currentSite.travelCost} onChange={handleEditInputChange} required min="0"/></div>
+                            <div className="onsite-site-modal-actions"><button type="submit" className="btn-save">บันทึกการเปลี่ยนแปลง</button><button type="button" className="btn-cancel" onClick={handleCancelEdit}>ยกเลิก</button></div>
                         </form>
                     </div>
                 </div>
@@ -162,16 +162,16 @@ const SiteDashboard = () => {
 
             {/* --- Modal สำหรับสร้างใหม่ --- */}
             {isCreating && (
-                 <div className="modal-overlay" onClick={handleCancelCreate}>
-                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                 <div className="onsite-site-modal-overlay" onClick={handleCancelCreate}>
+                    <div className="onsite-site-modal-content" onClick={e => e.stopPropagation()}>
                         <h2>เพิ่มไซต์งานใหม่</h2>
                         <form onSubmit={handleCreateSubmit}>
-                            <div className="form-group"><label>ชื่อไซต์</label><input type="text" name="name" className="form-input" value={newSite.name} onChange={handleNewSiteInputChange} required /></div>
-                            <div className="form-group"><label>ประเภท</label><input type="text" name="type" className="form-input" value={newSite.type} onChange={handleNewSiteInputChange} required /></div>
+                            <div className="onsite-site-form-group"><label>ชื่อไซต์</label><input type="text" name="name" className="form-input" value={newSite.name} onChange={handleNewSiteInputChange} required /></div>
+                            <div className="onsite-site-form-group"><label>ประเภท</label><input type="text" name="type" className="form-input" value={newSite.type} onChange={handleNewSiteInputChange} required /></div>
                             {/* ✅ เพิ่มช่องสร้าง Refcode */}
-                            <div className="form-group"><label>Ref Code</label><input type="text" name="Refcode" className="form-input" value={newSite.Refcode} onChange={handleNewSiteInputChange} /></div>
-                            <div className="form-group"><label>ค่าเดินทาง (บาท)</label><input type="number" name="travelCost" className="form-input" value={newSite.travelCost} onChange={handleNewSiteInputChange} required min="0"/></div>
-                            <div className="modal-actions"><button type="submit" className="btn-save">สร้างไซต์</button><button type="button" className="btn-cancel" onClick={handleCancelCreate}>ยกเลิก</button></div>
+                            <div className="onsite-site-form-group"><label>Ref Code</label><input type="text" name="Refcode" className="form-input" value={newSite.Refcode} onChange={handleNewSiteInputChange} /></div>
+                            <div className="onsite-site-form-group"><label>ค่าเดินทาง (บาท)</label><input type="number" name="travelCost" className="form-input" value={newSite.travelCost} onChange={handleNewSiteInputChange} required min="0"/></div>
+                            <div className="onsite-site-modal-actions"><button type="submit" className="btn-save">สร้างไซต์</button><button type="button" className="btn-cancel" onClick={handleCancelCreate}>ยกเลิก</button></div>
                         </form>
                     </div>
                 </div>

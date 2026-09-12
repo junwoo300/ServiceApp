@@ -12,7 +12,7 @@
     min-height: 100vh; /* เพื่อให้เต็มความสูงจอเมื่อเนื้อหาน้อย */
 }
 
-.mail-back-btn {
+.onsite-record-mail-back-btn {
     background: none;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -24,7 +24,7 @@
     align-items: center;
     gap: 8px;
 }
-.mail-back-btn:hover { background-color: #e9ecef; }
+.onsite-record-mail-back-btn:hover { background-color: #e9ecef; }
 
 .onsite-dashboard-title {
     color: #333;
@@ -271,7 +271,7 @@
 }
 
 /* --- Modal Styles --- */
-.modal-overlay {
+.onsite-record-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -284,7 +284,7 @@
     z-index: 1000; /* ให้ Modal อยู่บนสุด */
 }
 
-.modal-content {
+.onsite-record-modal-content {
     background-color: white;
     padding: 30px;
     border-radius: 10px;
@@ -296,7 +296,7 @@
     overflow-y: auto; /* เปิดใช้งาน Scrollbar หากเนื้อหาเกิน */
 }
 
-.modal-content h3 {
+.onsite-record-modal-content h3 {
     text-align: center;
     margin-bottom: 25px;
     color: #333;
@@ -304,11 +304,11 @@
 }
 
 /* Form Group ใน Modal */
-.form-group {
+.onsite-record-form-group {
     margin-bottom: 15px; /* ลดระยะห่างลงเล็กน้อยเพื่อให้ฟอร์มกระชับขึ้น */
 }
 
-.form-group label {
+.onsite-record-form-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
@@ -316,11 +316,11 @@
     font-size: 1rem;
 }
 
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group input[type="date"],
-.form-group textarea,
-.form-group select {
+.onsite-record-form-group input[type="text"],
+.onsite-record-form-group input[type="number"],
+.onsite-record-form-group input[type="date"],
+.onsite-record-form-group textarea,
+.onsite-record-form-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -331,37 +331,37 @@
 }
 
 /* สไตล์สำหรับ input ที่เป็น readOnly */
-.form-group input[type="text"][readOnly],
-.form-group input[type="number"][readOnly],
-.form-group textarea[readOnly] {
+.onsite-record-form-group input[type="text"][readOnly],
+.onsite-record-form-group input[type="number"][readOnly],
+.onsite-record-form-group textarea[readOnly] {
     background-color: #e9ecef; /* สีพื้นหลังอ่อนลง */
     color: #6c757d; /* สีตัวอักษรจางลง */
     cursor: not-allowed; /* เปลี่ยน cursor */
 }
 
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.onsite-record-form-group input:focus,
+.onsite-record-form-group select:focus,
+.onsite-record-form-group textarea:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
-.form-group select[multiple] {
+.onsite-record-form-group select[multiple] {
     min-height: 100px; /* เพิ่มความสูงสำหรับ multi-select */
 }
 
 /* ปุ่มใน Modal */
-.modal-actions {
+.onsite-record-modal-actions {
     display: flex;
     justify-content: flex-end; /* จัดปุ่มไปทางขวา */
     gap: 15px; /* เว้นระยะห่างระหว่างปุ่ม */
     margin-top: 25px;
 }
 
-.submit-btn,
-.cancel-btn {
+.onsite-record-submit-btn,
+.onsite-record-cancel-btn {
     padding: 12px 25px;
     border: none;
     border-radius: 8px;
@@ -371,22 +371,22 @@
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.submit-btn {
+.onsite-record-submit-btn {
     background-color: #007bff; /* สีน้ำเงิน */
     color: white;
 }
 
-.submit-btn:hover {
+.onsite-record-submit-btn:hover {
     background-color: #0056b3;
     transform: translateY(-1px);
 }
 
-.cancel-btn {
+.onsite-record-cancel-btn {
     background-color: #6c757d; /* สีเทา */
     color: white;
 }
 
-.cancel-btn:hover {
+.onsite-record-cancel-btn:hover {
     background-color: #5a6268;
     transform: translateY(-1px);
 }
@@ -419,7 +419,10 @@
     .onsite-export-container > div {
         width: 100%; /* Adjust spacing div for full width */
     }
-    .modal-content {
+    .onsite-record-modal-content {
         max-width: 95%; /* Adjust modal width for very small screens */
     }
 }
+.onsite-record-modal-overlay { padding: 16px; }
+.onsite-record-modal-content { max-height: calc(100dvh - 32px); overflow-y: auto; }
+.onsite-record-modal-actions { flex-wrap: wrap; }

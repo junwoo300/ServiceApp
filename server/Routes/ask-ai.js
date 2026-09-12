@@ -6,7 +6,8 @@ const axios = require('axios');
 router.post('/', async (req, res) => {
     const { prompt, language = "thai" } = req.body;
 
-    if (!prompt) {
+    if (typeof prompt !== 'string' || !prompt.trim() || prompt.length > 8000 ||
+        typeof language !== 'string' || language.length > 30) {
         return res.status(400).json({ error: 'Prompt is required' });
     }
 
@@ -15,8 +16,11 @@ router.post('/', async (req, res) => {
             model: 'gemma', // ใช้โมเดล gemma
             prompt: `ตอบเป็น${language}เท่านั้น: ${prompt}`,
             stream: false
-        });
+        }, { timeout: 60000 });
 
+        if (typeof response.data.response !== 'string' || !response.data.response.trim()) {
+            return res.status(502).json({ error: 'AI returned an invalid response' });
+        }
         return res.json({ response: response.data.response });
 
     } catch (error) {

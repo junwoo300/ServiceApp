@@ -75,26 +75,23 @@ const Projectfix = ({ pageTitle = 'เลือกเคสที่ต้อง
     return (
         <div className="projectfix-container">
             
-            <div className="button-container">
-                
-                <button className="add-button" onClick={() => setIsModalOpen(true)}>
-                    ADD PROJECT
-                </button>
-            </div>
             <div className="projectfix-header">
   <a href="/" className="robot-home-link">
     <img src="/imagenakub/home.png" alt="Home" className="robot-home-icon" />
   </a>
-  <h2 className="site-title">{pageTitle}</h2>
+  <h2 className="projectfix-site-title">{pageTitle}</h2>
+  <button type="button" className="projectfix-add-button" onClick={() => setIsModalOpen(true)}>
+    ADD PROJECT
+  </button>
 </div>
             {/* ช่องกรอกค้นหา */}
-            <div className="search-container">
+            <div className="projectfix-search-container">
                 <input
                     type="text"
                     placeholder="ค้นหาโปรเจกต์..."
                     value={searchQuery}
                     onChange={handleSearchChange}
-                    className="search-input"
+                    className="projectfix-search-input"
                 />
             </div>
 
@@ -134,9 +131,9 @@ const Projectfix = ({ pageTitle = 'เลือกเคสที่ต้อง
             )}
 
             {isModalOpen && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+                <div className="projectfix-modal">
+                    <div className="projectfix-modal-content">
+                        <button type="button" className="projectfix-close" aria-label="ปิดหน้าต่าง" onClick={() => setIsModalOpen(false)}>&times;</button>
                         <h2>เพิ่มโปรเจกต์ใหม่</h2>
                         <input
                             type="text"

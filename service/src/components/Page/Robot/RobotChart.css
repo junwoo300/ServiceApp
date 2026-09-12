@@ -64,9 +64,8 @@
   }
   
   .robot-back-button {
-    position: absolute;
-    top: 150px;
-    left: 10px;
+    display: block;
+    margin-bottom: 16px;
     background: #007bff;
     color: white;
     border: none;

@@ -83,7 +83,7 @@
 
 
 /* Modal Overlay */
-.modal-overlay {
+.employee-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -97,7 +97,7 @@
 }
 
 /* Modal Content */
-.modal-content {
+.employee-modal-content {
     background-color: white;
     padding: 30px;
     border-radius: 10px;
@@ -107,7 +107,7 @@
     animation: fadeIn 0.3s ease-out; /* เพิ่ม animation */
 }
 
-.modal-content h3 {
+.employee-modal-content h3 {
     text-align: center;
     margin-bottom: 25px;
     color: #333;
@@ -115,11 +115,11 @@
 }
 
 /* Form Group ใน Modal */
-.form-group {
+.employee-form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.employee-form-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
@@ -127,7 +127,7 @@
     font-size: 1rem;
 }
 
-.form-group input {
+.employee-form-group input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -136,22 +136,22 @@
     box-sizing: border-box; /* ให้ padding ไม่เพิ่มขนาดรวม */
 }
 
-.form-group input:focus {
+.employee-form-group input:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
 /* ปุ่มใน Modal */
-.modal-actions {
+.employee-modal-actions {
     display: flex;
     justify-content: flex-end; /* จัดปุ่มไปทางขวา */
     gap: 15px; /* เว้นระยะห่างระหว่างปุ่ม */
     margin-top: 25px;
 }
 
-.submit-btn,
-.cancel-btn {
+.employee-submit-btn,
+.employee-cancel-btn {
     padding: 12px 25px;
     border: none;
     border-radius: 8px;
@@ -161,22 +161,22 @@
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.submit-btn {
+.employee-submit-btn {
     background-color: #007bff; /* สีน้ำเงิน */
     color: white;
 }
 
-.submit-btn:hover {
+.employee-submit-btn:hover {
     background-color: #0056b3;
     transform: translateY(-1px);
 }
 
-.cancel-btn {
+.employee-cancel-btn {
     background-color: #6c757d; /* สีเทา */
     color: white;
 }
 
-.cancel-btn:hover {
+.employee-cancel-btn:hover {
     background-color: #5a6268;
     transform: translateY(-1px);
 }
@@ -194,7 +194,7 @@
 }
 
 /* back button */
-.back-btn {
+.employee-back-btn {
     background-color: #f0f0f0;
     color: #333;
     border: 1px solid #ccc;
@@ -209,12 +209,15 @@
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.back-btn:hover {
+.employee-back-btn:hover {
     background-color: #e0e0e0;
     border-color: #bbb;
 }
 
-.back-btn:active {
+.employee-back-btn:active {
     background-color: #d0d0d0;
     border-color: #aaa;
 }
+.employee-modal-overlay { padding: 16px; }
+.employee-modal-content { max-height: calc(100dvh - 32px); overflow-y: auto; }
+.employee-modal-actions { flex-wrap: wrap; }

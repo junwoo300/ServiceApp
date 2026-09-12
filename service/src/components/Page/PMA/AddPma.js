@@ -66,11 +66,11 @@ const AddPma = () => {
   };
 
   return (
-    <div className="container">
+    <div className="pma-add-container">
       <button className="btn-back" onClick={() => navigate('/PmaList')}>Back to List</button>
       <h1>Add New PMA Data</h1>
       <form onSubmit={handleSubmit} className="form">
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>NUPMA</label>
           <input
             type="text"
@@ -79,7 +79,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>Code PMA</label>
           <input
             type="text"
@@ -88,7 +88,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>Name</label>
           <input
             type="text"
@@ -97,7 +97,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>Start Date</label>
           <input
             type="date"
@@ -106,7 +106,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>Warranty</label>
           <input
             type="text"
@@ -115,7 +115,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>End Date</label>
           <input
             type="date"
@@ -124,7 +124,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>Status</label>
           <input
             type="text"
@@ -133,7 +133,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>Lease</label>
           <input
             type="text"
@@ -142,7 +142,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>Document</label>
           <input
             type="text"
@@ -151,7 +151,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>SLA</label>
           <input
             type="text"
@@ -160,7 +160,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="pma-add-form-group">
           <label>Note</label>
           <input
             type="text"
@@ -169,7 +169,7 @@ const AddPma = () => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit" className="btn">Add PMA</button>
+        <button type="submit" className="pma-add-btn">Add PMA</button>
       </form>
     </div>
   );

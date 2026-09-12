@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../apiClient';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './BillList.css';
@@ -18,7 +19,7 @@ function BillList() {
 
   const fetchBills = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API}/getAllBill`);
+      const response = await apiFetch(`${process.env.REACT_APP_API}/getAllBill`);
       if (!response.ok) throw new Error("Failed to fetch bills");
       const data = await response.json();
       setBills(data);
@@ -36,7 +37,7 @@ function BillList() {
   const handleAddBill = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.REACT_APP_API}/addBill`, {
+      const response = await apiFetch(`${process.env.REACT_APP_API}/addBill`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +56,7 @@ function BillList() {
 
   const toggleStatus = async (id) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API}/toggleStatus/${id}`, {
+      const response = await apiFetch(`${process.env.REACT_APP_API}/toggleStatus/${id}`, {
         method: "PUT",
       });
       if (!response.ok) throw new Error("Failed to toggle status");
@@ -74,7 +75,7 @@ function BillList() {
   const handleDelete = async (id) => {
     if (window.confirm("ต้องการลบบิลนี้หรือไม่?")) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API}/deleteBill/${id}`, {
+        const response = await apiFetch(`${process.env.REACT_APP_API}/deleteBill/${id}`, {
           method: "DELETE",
         });
 

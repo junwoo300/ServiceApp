@@ -1,5 +1,5 @@
 const express = require('express');
-const multer = require('multer');
+const upload = require('../middlewares/uploadMiddleware');
 const {
   createProject,
   createSite,
@@ -14,21 +14,10 @@ const {
 const router = express.Router();
 
 // ตั้งค่า multer สำหรับจัดการการอัปโหลดไฟล์
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // กำหนดโฟลเดอร์ที่เก็บไฟล์
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`); // ตั้งชื่อไฟล์ให้ไม่ซ้ำกัน
-  },
-});
-const upload = multer({ storage });
+
 
 // Middleware สำหรับจัดการข้อผิดพลาด
-const errorHandler = (err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something went wrong!');
-};
+
 
 // เส้นทางสำหรับโปรเจค
 router.post('/projects', upload.single('image'), createProject); // ใช้ middleware สำหรับการอัปโหลดไฟล์
@@ -67,6 +56,6 @@ router.post('/devices/:siteId', createDevice);
 router.get('/devices', getAllDevices);
 
 // ใช้งาน middleware สำหรับจัดการข้อผิดพลาด
-router.use(errorHandler);
+
 
 module.exports = router;

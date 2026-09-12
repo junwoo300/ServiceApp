@@ -7,7 +7,7 @@ const PmaPage = () => {
         <div>
             <div>
                 <br/>
-                <div className='img-add'>
+                <div className='pmapage-home'>
                     <a href='/'>
                         <img src="/imagenakub/home.png" alt="Home" />
                     </a>

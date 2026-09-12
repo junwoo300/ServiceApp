@@ -9,42 +9,40 @@
     position: relative; /* ใช้สำหรับจัดตำแหน่งปุ่ม Add */
 }
 
-h2 {
+.device-details-container h2 {
     text-align: center; /* กำหนดให้หัวข้ออยู่กลาง */
     color: #333; /* สีตัวอักษร */
 }
 
-.back-button {
+.device-back-button {
     background-color: #007bff; /* สีพื้นหลังปุ่ม */
     color: white; /* สีตัวอักษรปุ่ม */
     border: none; /* ไม่มีเส้นขอบ */
     border-radius: 4px; /* มุมมน */
     padding: 10px 15px; /* ระยะ padding */
     cursor: pointer; /* แสดงเป็น pointer เมื่อ hover */
-    margin-bottom: 20px; /* เว้นระยะด้านล่าง */
+    margin: 0;
     display: block; /* จัดให้ปุ่มอยู่ในบรรทัดใหม่ */
     text-align: center; /* กำหนดให้ข้อความอยู่กลาง */
     font-size: 16px; /* ขนาดตัวอักษร */
 }
 
-.back-button:hover {
+.device-back-button:hover {
     background-color: #0056b3; /* สีพื้นหลังเมื่อ hover */
 }
 
-.add-button {
+.device-add-button {
     background-color: #28a745; /* สีพื้นหลังของปุ่ม Add */
     color: white; /* สีตัวอักษรของปุ่ม Add */
     border: none; /* ไม่มีเส้นขอบ */
     border-radius: 4px; /* มุมมน */
     padding: 10px 15px; /* ระยะ padding */
     cursor: pointer; /* แสดงเป็น pointer เมื่อ hover */
-    position: absolute; /* ใช้จัดตำแหน่ง */
-    top: 20px; /* ระยะห่างจากด้านบน */
-    right: 20px; /* ระยะห่างจากด้านขวา */
+    margin-left: auto;
     font-size: 16px; /* ขนาดตัวอักษร */
 }
 
-.add-button:hover {
+.device-add-button:hover {
     background-color: #218838; /* สีพื้นหลังเมื่อ hover */
 }
 
@@ -74,11 +72,11 @@ h2 {
         padding: 15px; /* ลด padding สำหรับหน้าจอเล็ก */
     }
 
-    .back-button, .add-button {
+    .device-back-button, .device-add-button {
         width: 100%; /* ให้ปุ่มเต็มความกว้าง */
     }
 
-    .add-button {
+    .device-add-button {
         position: static; /* ให้ปุ่มไม่อยู่ที่ตำแหน่ง absolute บนหน้าจอเล็ก */
         margin-top: 10px; /* เพิ่มระยะห่างด้านบน */
     }
@@ -100,3 +98,34 @@ h2 {
 .ip-link:hover {
     color: darkblue; /* เปลี่ยนสีเมื่อเลื่อนเมาส์ไปที่ลิงก์ */
 }
+
+.device-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.device-header h2 { flex: 1 1 180px; margin: 0; }
+.device-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.5);
+}
+.device-modal-content {
+  position: relative;
+  width: 400px;
+  max-width: 100%;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  background: white;
+  border-radius: 8px;
+  padding: 40px 20px 20px;
+}
+.device-modal-content input { width: 100%; margin-bottom: 12px; }
+.device-close { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }

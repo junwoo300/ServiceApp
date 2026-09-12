@@ -72,7 +72,7 @@ const Employee = () => {
 
     return (
         <div>
-            <button className="back-btn" onClick={() => window.history.back()}>
+            <button className="employee-back-btn" onClick={() => window.history.back()}>
                 🔙 กลับ
             </button>
             <div className="employee-dashboard-container">
@@ -114,11 +114,11 @@ const Employee = () => {
 
             {/* Edit Modal */}
             {showEditModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
+                <div className="employee-modal-overlay">
+                    <div className="employee-modal-content">
                         <h3>แก้ไขข้อมูลพนักงาน</h3>
                         <form onSubmit={handleUpdate}>
-                            <div className="form-group">
+                            <div className="employee-form-group">
                                 <label htmlFor="editName">ชื่อพนักงาน:</label>
                                 <input
                                     type="text"
@@ -128,7 +128,7 @@ const Employee = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="employee-form-group">
                                 <label htmlFor="editRate">อัตรา (บาท):</label>
                                 <input
                                     type="number"
@@ -140,9 +140,9 @@ const Employee = () => {
                                     step="0.01"
                                 />
                             </div>
-                            <div className="modal-actions">
-                                <button type="submit" className="submit-btn">บันทึก</button>
-                                <button type="button" className="cancel-btn" onClick={() => setShowEditModal(false)}>ยกเลิก</button>
+                            <div className="employee-modal-actions">
+                                <button type="submit" className="employee-submit-btn">บันทึก</button>
+                                <button type="button" className="employee-cancel-btn" onClick={() => setShowEditModal(false)}>ยกเลิก</button>
                             </div>
                         </form>
                     </div>

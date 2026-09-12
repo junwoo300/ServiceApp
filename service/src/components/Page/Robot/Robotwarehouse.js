@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../apiClient';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Robotwarehouse.css";
@@ -24,7 +25,7 @@ const Robotwarehouse = () => {
     if (!editRepairData) return;
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API}/repairs/${editRepairData._id}`, {
+      const response = await apiFetch(`${process.env.REACT_APP_API}/repairs/${editRepairData._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editRepairData),
@@ -59,7 +60,7 @@ const Robotwarehouse = () => {
   const deleteRepair = async (id) => {
     if (window.confirm("Are you sure you want to delete this repair record?")) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API}/repairs/${id}`, { method: "DELETE" });
+        const response = await apiFetch(`${process.env.REACT_APP_API}/repairs/${id}`, { method: "DELETE" });
 
         const data = await response.json();
         if (response.ok) {

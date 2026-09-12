@@ -1,8 +1,7 @@
 /* สีพื้นฐานของปุ่มและการจัดวาง */
-.btn-home {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+.pma-list-btn-home {
+  display: inline-block;
+  margin-bottom: 16px;
   padding: 10px 20px;
   text-decoration: none;
   color: #fff;
@@ -11,27 +10,27 @@
   border: none;
   font-size: 16px;
   cursor: pointer;
-  z-index: 1000;
 }
 
-.btn-home:hover {
+.pma-list-btn-home:hover {
   background-color: #0056b3;
 }
 
-.container {
+.pma-list-container {
   padding: 20px;
   max-width: 1200px;
   margin: auto;
 }
 
-.top-bar {
+.pma-list-top-bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.search-input {
+.pma-list-search-input {
   margin-right: auto;
   padding: 8px;
   font-size: 16px;
@@ -40,7 +39,7 @@
   border-radius: 4px;
 }
 
-.btn-add {
+.pma-list-btn-add {
   display: inline-block;
   padding: 10px 15px;
   text-decoration: none;
@@ -52,7 +51,7 @@
   font-size: 16px;
 }
 
-.btn-add:hover {
+.pma-list-btn-add:hover {
   background-color: #218838;
 }
 

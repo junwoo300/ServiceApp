@@ -96,14 +96,14 @@ const PmaList = () => {
   );
 
   return (
-    <div className="container">
-      <Link to="/" className="btn-home">Home</Link>
+    <div className="pma-list-container">
+      <Link to="/" className="pma-list-btn-home">Home</Link>
       <h1>PMA List</h1>
-      <div className="top-bar">
-        <Link to="/addpma" className="btn-add">Add New PMA</Link>
+      <div className="pma-list-top-bar">
+        <Link to="/addpma" className="pma-list-btn-add">Add New PMA</Link>
         <input
           type="text"
-          className="search-input"
+          className="pma-list-search-input"
           placeholder="Search by name..."
           value={searchTerm}
           onChange={handleSearch}

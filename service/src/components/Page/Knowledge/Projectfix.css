@@ -7,7 +7,7 @@
 
 .projectfix-table {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* กำหนดให้มี 3 คอลัมน์ */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
     gap: 20px; /* ระยะห่างระหว่างการ์ด */
     margin-top: 20px;
 }
@@ -18,7 +18,8 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 50px; /* ปรับความสูงการ์ด */
+    min-height: 100px;
+    overflow-wrap: anywhere;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -42,26 +43,23 @@
     margin-top: 10px;
 }
 
-.search-container {
+.projectfix-search-container {
     margin-bottom: 20px;
     display: flex;
     justify-content: center; /* จัดปุ่มค้นหาให้ตรงกลาง */
 }
 
-.search-input {
+.projectfix-search-input {
     padding: 8px 12px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 300px;
+    width: min(100%, 400px);
 }
 
-.button-container {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.add-button {
+.projectfix-add-button {
+    flex-shrink: 0;
+    margin-left: auto;
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
@@ -70,11 +68,12 @@
     cursor: pointer;
 }
 
-.add-button:hover {
+.projectfix-add-button:hover {
     background-color: #45a049;
 }
 
-.modal {
+.projectfix-modal {
+    padding: 16px;
     position: fixed;
     top: 0;
     left: 0;
@@ -87,7 +86,11 @@
     z-index: 1000;
 }
 
-.modal-content {
+.projectfix-modal-content {
+    position: relative;
+    max-width: 100%;
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
     background-color: white;
     padding: 30px;
     border-radius: 8px;
@@ -95,7 +98,10 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.close {
+.projectfix-close {
+    border: 0;
+    background: transparent;
+    padding: 4px 8px;
     font-size: 24px;
     cursor: pointer;
     color: #333;
@@ -105,15 +111,32 @@
 }
 
 .projectfix-header {
+    flex-wrap: wrap;
+    margin-bottom: 20px;
     display: flex;
     align-items: center; /* จัดไอคอนและข้อความให้อยู่ในแนวเดียวกัน */
     justify-content: flex-start; /* จัดให้เริ่มต้นที่ซ้ายสุด */
     gap: 10px; /* ระยะห่างระหว่างไอคอนและข้อความ */
 }
-.site-title {
+.projectfix-site-title {
     margin: 0;
     font-size: 1.5rem;
     color: #333;
-    text-align: center; /* จัดข้อความให้อยู่กลาง */
-    width: 80%;
+    text-align: left;
+    flex: 1 1 180px;
+    overflow-wrap: anywhere;
+}
+
+.projectfix-modal-content input,
+.projectfix-modal-content textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 600px) {
+    .projectfix-add-button {
+        width: 100%;
+        margin-left: 0;
+    }
 }

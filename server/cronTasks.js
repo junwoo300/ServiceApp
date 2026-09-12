@@ -1,11 +1,12 @@
+require('./Config/env');
 // cronTasks.js
 
 const axios = require('axios');
 const cron = require('node-cron');
 const Bill = require('./Models/BillforpmModels');
 
-const TELEGRAM_TOKEN = '8428255341:AAFPRp8jJ4h0lQpn0kNveVP6y6d9cQ-vSWo';
-const TELEGRAM_CHAT_ID = '-4943849906';
+const TELEGRAM_TOKEN = process.env.TELEGRAM_BILL_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_BILL_CHAT_ID;
 
 function getFormattedDate() {
   const now = new Date();

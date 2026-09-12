@@ -66,20 +66,20 @@ const SiteDetails = () => {
 
     return (
         <div>
-            <div className="button-container">
-                <button className="back-button" onClick={handleBack}>
+            <div className="camera-site-button-container">
+                <button className="camera-site-back-button" onClick={handleBack}>
                     BACK
                 </button>
-                <button className="add-button" onClick={() => setIsModalOpen(true)}>
+                <button className="camera-site-add-button" onClick={() => setIsModalOpen(true)}>
                     ADD SITE
                 </button>
             </div>
             
             <h2 className="site-title">รายชื่อ Site</h2>
             {siteData.length > 0 ? (
-                <div className="site-table">
+                <div className="camera-site-site-table">
                     {groupedSites.map((group, index) => (
-                        <div className="site-row" key={index}>
+                        <div className="camera-site-site-row" key={index}>
                             {group.map((site) => (
                                 <div className="site-cell" key={site._id}>
                                     <Link to={`/site/${site._id}`}>
@@ -95,9 +95,9 @@ const SiteDetails = () => {
             )}
 
             {isModalOpen && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+                <div className="camera-site-modal">
+                    <div className="camera-site-modal-content">
+                        <span className="camera-site-close" onClick={() => setIsModalOpen(false)}>&times;</span>
                         <h2>Add New Site</h2>
                         <input
                             type="text"

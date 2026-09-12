@@ -15,7 +15,7 @@ const Mainpm = () => {
   };
 
   return (
-    <div className='img-add'>
+    <div className='Mainpm-home'>
         <a href='/'>
           <img src="/imagenakub/home.png" alt="Home" />
         </a>

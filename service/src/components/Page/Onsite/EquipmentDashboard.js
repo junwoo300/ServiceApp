@@ -37,7 +37,7 @@ const EquipmentDashboard = () => {
 
   return (
     <div>
-        <button className="back-btn" onClick={() => window.history.back()}>🔙 กลับ</button>
+        <button className="equipment-back-btn" onClick={() => window.history.back()}>🔙 กลับ</button>
         <h2 className='equipment-title2' > รายการอุปกรณ์ Onsite    </h2>
     <div className="equipment-dashboard-container">
       {Object.entries(equipmentData).map(([type, items]) => (

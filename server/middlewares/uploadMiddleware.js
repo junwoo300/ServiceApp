@@ -1,48 +1,40 @@
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-
-// ตรวจสอบและสร้างโฟลเดอร์ 'uploads/' ถ้าไม่มี
-const dir = './uploads';
-if (!fs.existsSync(dir)) {
-  fs.mkdirSync(dir, { recursive: true }, (err) => {
-    if (err) throw err;  // เพิ่มการตรวจสอบข้อผิดพลาดในการสร้างโฟลเดอร์
-  });
+const path = require('node:path');
+const fs = require('node:fs/promises');
+const { randomUUID } = require('node:crypto');
+const directory = path.join(__dirname, '..', 'uploads');
+const types = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png',
+  '.gif': 'image/gif', '.bmp': 'image/bmp' };
+const invalid = () => Object.assign(new Error('Only valid JPEG, PNG, GIF or BMP images are allowed'), { status: 400 });
+function validSignature(buffer, ext) {
+  if (ext === '.jpg' || ext === '.jpeg') return buffer.subarray(0, 3).equals(Buffer.from([255, 216, 255]));
+  if (ext === '.png') return buffer.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  if (ext === '.gif') return ['GIF87a', 'GIF89a'].includes(buffer.subarray(0, 6).toString());
+  return ext === '.bmp' && buffer.subarray(0, 2).toString() === 'BM';
 }
-
-// กำหนดที่เก็บไฟล์และตั้งชื่อไฟล์
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // เก็บไฟล์ในโฟลเดอร์ 'uploads'
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // ชื่อไฟล์ไม่ซ้ำกันโดยใช้เวลา
+const upload = multer({ storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024, files: 1, fields: 20, fieldSize: 64 * 1024, parts: 21 },
+  fileFilter(req, file, cb) {
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(types[ext] === file.mimetype ? null : invalid(), types[ext] === file.mimetype);
   }
 });
-
-// ฟังก์ชันตรวจสอบประเภทไฟล์
-const fileFilter = (req, file, cb) => {
-  const fileTypes = /jpeg|jpg|png|gif|bmp/; // กำหนดประเภทไฟล์ที่รับ (สามารถปรับเพิ่มได้)
-  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase()); // ตรวจสอบนามสกุลไฟล์
-  const mimeType = fileTypes.test(file.mimetype); // ตรวจสอบ MIME type
-
-  if (extname && mimeType) {
-    cb(null, true);  // ถ้าไฟล์ถูกต้อง ให้ผ่าน
-  } else {
-    cb(new Error('Only images (jpeg, jpg, png, gif, bmp) are allowed'), false); // แจ้งข้อผิดพลาดที่ชัดเจนขึ้น
+module.exports = {
+  single(field) {
+    const receive = upload.single(field);
+    return (req, res, next) => receive(req, res, async error => {
+      if (error) return next(error);
+      if (!req.file) return next(Object.assign(new Error('Image is required'), { status: 400 }));
+      const ext = path.extname(req.file.originalname).toLowerCase();
+      if (!validSignature(req.file.buffer, ext)) return next(invalid());
+      try {
+        await fs.mkdir(directory, { recursive: true });
+        const filename = `${randomUUID()}${ext}`;
+        await fs.writeFile(path.join(directory, filename), req.file.buffer, { flag: 'wx' });
+        req.file.path = `uploads/${filename}`;
+        delete req.file.buffer;
+        next();
+      } catch (err) { next(err); }
+    });
   }
 };
-
-// สร้างการอัปโหลดด้วย multer
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-  limits: { fileSize: 1024 * 1024 * 5 }, // จำกัดขนาดไฟล์ที่ 5MB
-  onError: (err, next) => {
-    console.error(err);  // แสดงข้อผิดพลาด
-    next(err);
-  }
-});
-
-// ส่งออก upload
-module.exports = upload;

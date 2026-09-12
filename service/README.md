@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+﻿# Service APP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend: React. Backend: Express + MongoDB. Chat uses local Ollama; the Python training script is a separate experiment.
 
-## Available Scripts
+## Run locally
 
-In the project directory, you can run:
+Requires Node.js 22.16+ and MongoDB at `mongodb://127.0.0.1:27017/ServiceTeam`.
 
-### `npm start`
+1. In `server`, install dependencies with `npm ci` if needed.
+2. Run `npm run setup:auth` once. It creates `server/.env` containing a salted password hash and `server/.initial-password.txt` containing the generated password. Read the password locally, store it securely, then remove the password text file. Do not commit either file.
+3. Run `npm start` in `server`.
+4. In `service`, install dependencies with `npm ci` if needed, then run `npm start` and open `http://localhost:3000`.
+5. Sign in using the generated password. The previous password embedded in the frontend no longer works.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+For an existing installation where setup has already run, use its generated password; do not rerun setup. To rotate the password, remove the `APP_PASSWORD_HASH` line from `server/.env` and remove the old `.initial-password.txt` after storing it, rerun setup, and restart the backend.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The frontend uses `/api` and `/uploads` on the same origin. CRA proxies these paths to `http://127.0.0.1:5000` during development. Restart both processes after changing configuration. `service/.env.example` documents the frontend settings.
 
-### `npm test`
+## Sessions and deployment
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The shared team password is checked only on the backend using scrypt. All business API routes and uploaded files require a server session. Sessions expire after eight hours and are invalidated on logout or backend restart. Five failed attempts per IP within 15 minutes temporarily block login. This implementation retains a single shared access level; it does not add individual accounts or roles.
 
-### `npm run build`
+Sessions and login counters are in memory and support one backend process. Before running multiple instances, use a shared session/rate-limit store. Behind a reverse proxy, the current rate limit groups requests by the connection IP seen by Express.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+For deployment, serve the built frontend and reverse-proxy `/api` and `/uploads` under the same HTTPS origin. Set `NODE_ENV=production` and `FRONTEND_ORIGINS` to the exact public origin in `server/.env`; secure cookies then require HTTPS. Development defaults include the CRA proxy target because CRA rewrites the Origin header. API mutations require `X-Service-App: 1`; the frontend adds it automatically. A standalone static frontend without these proxy routes cannot reach the backend.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Telegram
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Replace the previously exposed bot tokens through the bot owner's Telegram account. Moving tokens out of source does not revoke them, and old values remain in Git history or old build artifacts.
 
-### `npm run eject`
+Configure `TELEGRAM_BILL_TOKEN`, `TELEGRAM_BILL_CHAT_ID`, `TELEGRAM_ONSITE_TOKEN`, and `TELEGRAM_ONSITE_CHAT_ID` only in `server/.env` (see its example). Do not use `REACT_APP_*` for secrets. Missing configuration leaves the corresponding integration disabled; the test-message API returns 503. Restarting the backend after configuring Telegram enables its scheduled reminders / onsite bot.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The web test button calls the authenticated backend endpoint. It does not receive a bot token.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Uploads and tests
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Image routes accept JPEG, PNG, GIF, or BMP up to 5 MiB, check the extension, MIME type and initial file signature, and save a random filename. Excel imports accept `.xls` / `.xlsx` up to 5 MiB. All upload routes require login.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Backend: run `npm test` in `server`. Tests start temporary local HTTP servers, mock persistence for the successful upload, and remove their own test file. They do not connect to MongoDB or send Telegram messages.
+- Frontend: run `npm test -- --watchAll=false --runInBand` in `service`.
+- Build: run `npm run build` in `service`.
 
-## Learn More
+`.gitignore` prevents new environment files, dependencies, model output, and logs from being added. Files already tracked by Git remain tracked.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Python experiment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`python/train_model.py` now predicts a sequence of character tokens using an encoder/decoder. It saves the model, tokenizer, and sequence lengths together under `python/model`. Its three example records are only suitable for a smoke test, not useful chatbot training.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Create a fresh Python environment and install TensorFlow, NumPy, and scikit-learn compatible with that Python version. The checked-in `python/venv` points at another machine and should not be reused. Run `python python/train_model.py --epochs 1` for a smoke test, or use `--data` and `--output` to select data and output paths. The web chat continues to call Ollama independently.

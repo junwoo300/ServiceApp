@@ -1,4 +1,4 @@
-.container {
+.pma-add-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -35,17 +35,17 @@
     margin-bottom: 20px;
   }
   
-  .form-group {
+  .pma-add-form-group {
     flex: 1 1 calc(50% - 20px);
   }
   
-  .form-group label {
+  .pma-add-form-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
   }
   
-  .form-group input {
+  .pma-add-form-group input {
     width: 100%;
     padding: 8px;
     font-size: 16px;
@@ -53,7 +53,7 @@
     border-radius: 4px;
   }
   
-  .btn {
+  .pma-add-btn {
     background-color: #28a745;
     color: white;
     padding: 10px 20px;
@@ -64,7 +64,7 @@
     margin-top: 20px;
   }
   
-  .btn:hover {
+  .pma-add-btn:hover {
     background-color: #218838;
   }
   

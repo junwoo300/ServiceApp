@@ -1,24 +1,22 @@
-import React from "react";
+import { useState } from 'react';
+import { api } from '../../../apiClient';
 
-const Billforpm = () => {
+export default function Billforpm() {
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState('');
   const sendTestMessage = async () => {
-    await fetch("https://api.telegram.org/bot7617997306:AAHegLMj-2wL-23exoHRnMcQS_5lrT-Xo-0/sendMessage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: "-4943849906",
-        text: "สวัสดีจาก React! นะจ๊ะ อิอิ"
-      })
-    });
+    setBusy(true);
+    setMessage('');
+    try {
+      const response = await api.post('/telegram/test');
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage(error.response?.data?.message || 'เชื่อมต่อระบบไม่ได้ กรุณาลองใหม่');
+    } finally { setBusy(false); }
   };
-
-  return (
-    <div>
-      <h2>ส่งข้อความไป Telegram</h2>
-      <button onClick={sendTestMessage}>ส่งข้อความทดสอบ</button>
-    </div>
-  );
-};
-
-export default Billforpm;
-
+  return <div>
+    <h2>ส่งข้อความไป Telegram</h2>
+    <button onClick={sendTestMessage} disabled={busy}>{busy ? 'กำลังส่ง...' : 'ส่งข้อความทดสอบ'}</button>
+    {message && <p role="status">{message}</p>}
+  </div>;
+}
