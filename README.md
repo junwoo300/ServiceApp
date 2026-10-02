@@ -1,57 +1,86 @@
 # Service APP
 
-ระบบจัดการงานบริการสำหรับทีม Service รวมงาน Onsite, PM/PMA, คลังอุปกรณ์, Camera, Robot และเอกสารไว้ในเว็บเดียว
+**Service APP** คือระบบบริหารจัดการงานสำหรับทีม Service ที่รวบรวมงาน **Onsite, Case Support, PM/PMA, คลังอุปกรณ์, Camera, Robot และเอกสารที่เกี่ยวข้อง** ไว้ในระบบเดียว เพื่อช่วยให้สามารถติดตามสถานะงาน จัดเก็บข้อมูล และตรวจสอบผลการปฏิบัติงานได้สะดวกมากขึ้น
 
 ## ความสามารถหลัก
 
-- จัดการงาน Onsite และ Case Support
-- จัดการงาน PM และสัญญา PMA
-- จัดการคลังอุปกรณ์และข้อมูล Camera
-- ติดตาม Robot Online/Offline พร้อมจำนวนงาน เวลาทำงาน และพื้นที่ทำความสะอาดจาก iDriverPlus
-- เลือกดูผลงานวันเดียวหรือช่วงหลายวัน และคัดลอกข้อความสรุปเช้า/บ่าย
-- ส่งรายงาน Robot อัตโนมัติผ่าน Telegram
-- เพิ่ม แก้ไข และเปิดร่างเมลใน Outlook แยกตามไซต์
-- จัดเก็บ Knowledge และใช้งานแชตผ่าน Ollama ในเครื่อง
+- จัดการงาน **Onsite** และ **Case Support**
+- จัดการงาน **PM** และสัญญา **PMA**
+- จัดการคลังอุปกรณ์และข้อมูล **Camera**
+- ติดตามสถานะ Robot แบบ **Online/Offline**
+- ตรวจสอบจำนวนงาน เวลาทำงาน และพื้นที่ทำความสะอาดของ Robot จาก **iDriverPlus**
+- เลือกดูผลการทำงานของ Robot แบบรายวันหรือกำหนดช่วงวันที่
+- สร้างและคัดลอกข้อความสรุปผลการทำงานช่วงเช้า/บ่าย
+- ส่งรายงานสถานะและผลการทำงานของ Robot อัตโนมัติผ่าน **Telegram**
+- เพิ่ม แก้ไข และเปิดร่างอีเมลใน **Outlook** โดยแยกตาม Site
+- จัดเก็บข้อมูล **Knowledge** สำหรับใช้เป็นฐานความรู้ภายใน
+- รองรับระบบแชตผ่าน **Ollama** ที่ทำงานภายในเครื่อง
 
-## เทคโนโลยีและโครงสร้าง
+## เทคโนโลยีและโครงสร้างระบบ
 
 | ส่วน | เทคโนโลยี / หน้าที่ |
 | --- | --- |
-| `service/` | React 18 และ Create React App — หน้าเว็บ |
-| `server/` | Node.js, Express และ Mongoose — API และบอต |
-| MongoDB | ฐานข้อมูล `ServiceTeam` |
-| `server/uploads/` | ไฟล์ที่ผู้ใช้อัปโหลด |
-| `python/` | สคริปต์ทดลองฝึกโมเดล แยกจากเว็บและ Ollama |
+| `service/` | React 18 และ Create React App — Frontend |
+| `server/` | Node.js, Express และ Mongoose — Backend API และ Bot |
+| MongoDB | ฐานข้อมูลหลัก `ServiceTeam` |
+| `server/uploads/` | จัดเก็บไฟล์ที่ผู้ใช้อัปโหลด |
+| `python/` | สคริปต์สำหรับทดลองและฝึกโมเดล แยกจาก Web Application และ Ollama |
 
-## เริ่มใช้งานในเครื่อง
+## เริ่มต้นใช้งานในเครื่อง
 
-เตรียม Node.js 22.16 ขึ้นไป, npm และ MongoDB ที่กำลังทำงานอยู่ คำสั่งด้านล่างใช้ PowerShell โดยเริ่มจากโฟลเดอร์หลักของโปรเจกต์
+ก่อนเริ่มใช้งาน ให้เตรียม:
 
-### 1. ติดตั้งและเปิด backend
+- Node.js **22.16 ขึ้นไป**
+- npm
+- MongoDB ที่กำลังทำงานอยู่
+
+คำสั่งด้านล่างใช้ **PowerShell** และเริ่มต้นจากโฟลเดอร์หลักของโปรเจกต์
+
+### 1. ติดตั้งและเปิด Backend
 
 ```powershell
 cd server
 npm ci
 ```
 
-สำหรับการติดตั้งใหม่ที่ยังไม่มี `server/.env` ให้คัดลอกไฟล์ตัวอย่าง:
+สำหรับการติดตั้งครั้งแรก หากยังไม่มีไฟล์ `server/.env` ให้สร้างจากไฟล์ตัวอย่าง:
 
 ```powershell
 Copy-Item .env.example .env
 npm run setup:auth
 ```
 
-คำสั่ง `setup:auth` สร้างรหัสผ่านเข้าเว็บไว้ใน `server/.initial-password.txt` และเก็บ password hash ใน `server/.env` ให้อ่านรหัสผ่านในเครื่องและเก็บไว้ในที่ปลอดภัย ไม่ใส่รหัสผ่านหรือ token ลง Git
+คำสั่ง `setup:auth` จะ:
 
-หากติดตั้งไว้แล้ว ให้ใช้ `.env` และรหัสผ่านเดิม ไม่ต้องคัดลอกทับหรือรัน `setup:auth` ซ้ำ
+- สร้างรหัสผ่านสำหรับเข้าสู่ระบบ
+- บันทึกรหัสผ่านเริ่มต้นไว้ที่ `server/.initial-password.txt`
+- สร้าง Password Hash และบันทึกไว้ใน `server/.env`
+
+หลังจากสร้างรหัสผ่านแล้ว ควรเก็บรหัสผ่านไว้ในที่ปลอดภัย และ **ห้ามนำ Password, Token หรือข้อมูลสำคัญอื่น ๆ ขึ้น Git**
+
+หากเคยติดตั้งระบบไว้แล้ว ให้ใช้ไฟล์ `.env` และรหัสผ่านเดิม โดยไม่จำเป็นต้องคัดลอก `.env.example` ทับหรือรัน `setup:auth` ซ้ำ
+
+เริ่ม Backend:
 
 ```powershell
 npm start
 ```
 
-API เริ่มที่ `http://127.0.0.1:5000` ค่าเชื่อมต่อ MongoDB ปัจจุบันคือ `mongodb://127.0.0.1:27017/ServiceTeam` ซึ่งกำหนดใน [server/Config/Db.js](server/Config/Db.js)
+Backend API จะเริ่มทำงานที่:
 
-### 2. เปิด frontend ในอีก terminal
+`http://127.0.0.1:5000`
+
+ค่าเชื่อมต่อ MongoDB ปัจจุบัน:
+
+`mongodb://127.0.0.1:27017/ServiceTeam`
+
+โดยกำหนดค่าไว้ที่:
+
+[server/Config/Db.js](server/Config/Db.js)
+
+### 2. ติดตั้งและเปิด Frontend
+
+เปิด Terminal หรือ PowerShell อีกหน้าต่าง แล้วรัน:
 
 ```powershell
 cd service
@@ -59,68 +88,64 @@ npm ci
 npm start
 ```
 
-เปิด **http://localhost:3000** และเข้าสู่ระบบด้วยรหัสผ่านที่สร้างไว้ Frontend ใช้ `/api` และส่งต่อไปยัง backend ผ่าน development proxy โดยดูค่าตัวอย่างได้ใน [service/.env.example](service/.env.example)
+จากนั้นเปิด:
 
-หลังเปลี่ยนค่าตั้งค่า ให้รีสตาร์ต process ที่เกี่ยวข้อง การรีสตาร์ต backend จะทำให้ต้องเข้าสู่ระบบใหม่
+**http://localhost:3000**
 
-## ตั้งค่า Robot และ Telegram
+และเข้าสู่ระบบด้วยรหัสผ่านที่สร้างไว้
 
-กำหนดค่าเฉพาะใน `server/.env` ดูรายการทั้งหมดได้จาก [server/.env.example](server/.env.example)
+Frontend จะเรียก Backend ผ่าน `/api` และส่งต่อ Request ไปยัง Backend ด้วย Development Proxy
+
+สามารถดูตัวอย่างการตั้งค่าได้ที่:
+
+[service/.env.example](service/.env.example)
+
+> หลังจากแก้ไขค่าการตั้งค่า ควร Restart Process ที่เกี่ยวข้อง  
+> การ Restart Backend จะทำให้ Session ปัจจุบันสิ้นสุดและต้องเข้าสู่ระบบใหม่
+
+## การตั้งค่า Robot และ Telegram
+
+ค่าที่เกี่ยวข้องกับ Robot และ Telegram ให้กำหนดไว้ใน:
+
+`server/.env`
+
+สามารถดูรายการตัวแปรทั้งหมดได้จาก:
+
+[server/.env.example](server/.env.example)
 
 | ตัวแปร | ใช้สำหรับ |
 | --- | --- |
-| `IDRIVERPLUS_USERNAME`, `IDRIVERPLUS_PASSWORD` | บัญชีอ่านข้อมูล Robot |
-| `TELEGRAM_ONSITE_TOKEN`, `TELEGRAM_ONSITE_CHAT_ID` | บอตงาน Onsite และกลุ่มปลายทาง |
-| `TELEGRAM_BILL_TOKEN`, `TELEGRAM_BILL_CHAT_ID` | แจ้งเตือนบิล |
-| `TELEGRAM_ROBOT_ENABLED` | ตั้งเป็น `true` เพื่อเปิดรายงาน Robot |
-| `TELEGRAM_ROBOT_TOKEN`, `TELEGRAM_ROBOT_CHAT_ID` | บอตและกลุ่มรับรายงาน Robot |
+| `IDRIVERPLUS_USERNAME`, `IDRIVERPLUS_PASSWORD` | บัญชีสำหรับดึงข้อมูล Robot |
+| `TELEGRAM_ONSITE_TOKEN`, `TELEGRAM_ONSITE_CHAT_ID` | Bot สำหรับงาน Onsite และ Telegram Group ปลายทาง |
+| `TELEGRAM_BILL_TOKEN`, `TELEGRAM_BILL_CHAT_ID` | Bot สำหรับแจ้งเตือนบิล |
+| `TELEGRAM_ROBOT_ENABLED` | กำหนดเป็น `true` เพื่อเปิดระบบรายงาน Robot |
+| `TELEGRAM_ROBOT_TOKEN`, `TELEGRAM_ROBOT_CHAT_ID` | Bot และ Telegram Group สำหรับรับรายงาน Robot |
 
-รายงาน Robot สามารถใช้บอตและกลุ่มเดียวกับ Onsite โดยใส่ค่าเดียวกันในตัวแปรของ Robot และรีสตาร์ต backend
+รายงาน Robot สามารถใช้ Bot และ Telegram Group เดียวกับระบบ Onsite ได้ โดยกำหนด Token และ Chat ID เดียวกันในตัวแปรของ Robot
+
+หลังจากแก้ไขค่าใน `.env` ให้ Restart Backend เพื่อให้ค่าการตั้งค่าใหม่มีผล
+
+### ตารางส่งรายงาน Robot
 
 | เวลาไทย (`Asia/Bangkok`) | รายงาน |
 | --- | --- |
-| 08:00 | สถานะ Online/Offline ปัจจุบัน |
-| 00:00 | สถานะปัจจุบัน พร้อมพื้นที่ทำงานรวมของวันก่อนหน้า |
+| 08:00 | รายงานสถานะ Online/Offline ปัจจุบัน |
+| 00:00 | รายงานสถานะปัจจุบัน พร้อมพื้นที่ทำงานรวมของวันก่อนหน้า |
 
-เครื่องและ backend ต้องเปิดพร้อมเชื่อมต่ออินเทอร์เน็ตเมื่อถึงเวลาส่ง งานตั้งเวลาไม่ส่งย้อนหลังเมื่อเครื่องปิด และควรรัน backend เพียง instance เดียวเพื่อไม่ให้ส่งซ้ำ
+เครื่องที่รัน Backend ต้องเปิดอยู่และสามารถเชื่อมต่ออินเทอร์เน็ตได้ในช่วงเวลาที่กำหนด
 
-สถานะ Online/Offline เป็นสถานะ ณ เวลาดึงข้อมูล ไม่ใช่ประวัติย้อนหลัง พื้นที่ของวันนี้เป็นยอดสะสมถึงเวลาที่ดึงข้อมูล รายละเอียดเพิ่มเติมอยู่ใน [คู่มือ Robot](server/ROBOT-TELEMETRY.md)
+ระบบตั้งเวลา **จะไม่ส่งรายงานย้อนหลัง** หากเครื่องหรือ Backend ปิดอยู่ในช่วงเวลาที่กำหนด
 
-## ทดสอบและ build
+ควรรัน Backend เพียง **1 Instance** เพื่อป้องกันการส่งรายงาน Telegram ซ้ำ
 
-รันทดสอบ backend จากโฟลเดอร์ `server`:
+> **หมายเหตุ:** สถานะ Online/Offline เป็นสถานะของ Robot ณ เวลาที่ระบบดึงข้อมูล ไม่ใช่ข้อมูลประวัติย้อนหลัง ส่วนพื้นที่ทำความสะอาดของวันปัจจุบันเป็นยอดสะสมจนถึงเวลาที่ดึงข้อมูล
 
-```powershell
-npm test
-```
+รายละเอียดเพิ่มเติม:
 
-รันทดสอบ frontend จากโฟลเดอร์ `service`:
+[คู่มือ Robot และ Telemetry](server/ROBOT-TELEMETRY.md)
 
-```powershell
-node node_modules/react-scripts/bin/react-scripts.js test --watchAll=false --runInBand
-```
+## การทดสอบระบบและ Build
 
-สร้าง frontend สำหรับนำไปใช้งานจริง จากโฟลเดอร์ `service`:
+### Backend
 
-```powershell
-npm run build
-```
-
-ผลลัพธ์อยู่ที่ `service/build` การนำขึ้นใช้งานจริงต้องมี backend และ MongoDB ด้วย พร้อม reverse proxy สำหรับ `/api` และ `/uploads` ภายใต้ HTTPS origin เดียวกัน ตั้ง `NODE_ENV=production` และ `FRONTEND_ORIGINS` ให้ตรงกับเว็บไซต์
-
-Backend ใช้ตัวจัดรูปแบบรายงานร่วมกับหน้าเว็บที่ `service/src/components/Page/Robot/robotReportText.js` จึงต้องนำไฟล์นี้ไปด้วยเมื่อ deploy backend
-
-## การสำรองข้อมูลและขนาดโปรเจกต์
-
-- เก็บโค้ด, `package.json` และ `package-lock.json` ไว้ใน Git
-- `node_modules`, แคช `.cache`, `build` และ Python `venv` สร้างใหม่ได้ ไม่จำเป็นต้องแนบในการย้ายซอร์สโค้ด
-- หยุด frontend ก่อนล้างแคช การเปิดครั้งแรกหลังล้างจะช้าลงเล็กน้อย
-- สำรองฐานข้อมูล MongoDB และ `server/uploads` แยกจากโค้ด รวมทั้งเก็บ `.env` ไว้อย่างปลอดภัย
-- `.gitignore` ไม่ลบไฟล์ที่เคย commit ไปแล้วออกจากประวัติ Git การล้างไฟล์ในเครื่องจึงอาจไม่ทำให้ `.git` เล็กลง
-
-## เอกสารเพิ่มเติม
-
-- [รายละเอียดการรันระบบและ session](service/README.md)
-- [การเชื่อมต่อ Robot และรายงาน Telegram](server/ROBOT-TELEMETRY.md)
-- [ตัวอย่างการตั้งค่า backend](server/.env.example)
-- [ตัวอย่างการตั้งค่า frontend](service/.env.example)
+รันทดสอบจากโฟลเดอร์ `
