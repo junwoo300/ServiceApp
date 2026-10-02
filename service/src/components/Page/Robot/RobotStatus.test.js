@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import RobotStatus from './RobotStatus';
 import { api } from '../../../apiClient';
@@ -10,14 +10,15 @@ test('shows actual telemetry, filters robots and loads a selected day', async ()
     { vin: 'VIN2', name: 'Robot 2', status: 'offline', tasks: null, workMinutes: null, actualArea: null, plannedArea: null },
   ] } });
   render(<MemoryRouter><RobotStatus /></MemoryRouter>);
-  expect(await screen.findByText('Robot 1')).toBeInTheDocument();
+  const table = within(screen.getByRole('table'));
+  expect(await table.findByText('Robot 1')).toBeInTheDocument();
   expect(screen.getByText('5 ชม. 26 นาที')).toBeInTheDocument();
   fireEvent.change(screen.getByLabelText('สถานะ'), { target: { value: 'offline' } });
-  expect(screen.queryByText('Robot 1')).not.toBeInTheDocument();
-  expect(screen.getByText('Robot 2')).toBeInTheDocument();
+  expect(table.queryByText('Robot 1')).not.toBeInTheDocument();
+  expect(table.getByText('Robot 2')).toBeInTheDocument();
   fireEvent.change(screen.getByLabelText('วันที่ดูผลงาน'), { target: { value: '2026-09-11' } });
   await waitFor(() => expect(api.get).toHaveBeenLastCalledWith('/robot-telemetry', expect.objectContaining({ params: { date: '2026-09-11' } })));
-  await screen.findByText('Robot 2');
+  await table.findByText('Robot 2');
 });
 
 test('failed connection is an error, not an offline fleet', async () => {

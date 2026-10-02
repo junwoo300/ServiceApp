@@ -11,6 +11,8 @@ export default function Menulist() {
       <div className="feature-shortcuts"><Link to="/OnsiteDashboard"><FiMapPin /><span><strong>งานหน้างาน</strong><small>ไซต์งานและบันทึกการให้บริการ</small></span><FiArrowRight /></Link><Link to="/Projectfix"><FiBookOpen /><span><strong>คลังความรู้ของทีม</strong><small>โปรเจกต์ เคส และวิธีแก้ไข</small></span><FiArrowRight /></Link></div>
     </section>
     <div className="module-section-title"><div><h2>เครื่องมือสำหรับทีม</h2><p>เลือกพื้นที่ทำงานที่ต้องการ</p></div><span>{Datamenu.length} หมวดงาน</span></div>
-    <div className="workspace-modules">{Datamenu.map((menu, index) => <Imgmenubar key={menu.link} listmenu={menu} index={index} />)}</div>
+    <div className="workspace-modules">
+      {Datamenu.map((menu) => <Imgmenubar key={menu.link} listmenu={menu} />)}
+    </div>
   </div>;
 }

@@ -39,6 +39,7 @@ const SiteonsiteSchema = new Schema({
 // 4. Onsite Schema (main record) - ไม่มีการเปลี่ยนแปลง
 const OnsiteSchema = new Schema({
     selectedBy: { type: String, required: true },
+    telegramUserId: { type: String, index: true },
     onsiteDate: { type: Date, required: true },
     employees: [{ type: Schema.Types.ObjectId, ref: 'Employeeonsite' }],
     site: { type: Schema.Types.ObjectId, ref: 'Siteonsite' },

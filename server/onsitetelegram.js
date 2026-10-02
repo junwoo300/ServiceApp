@@ -1,6 +1,9 @@
 require('./Config/env');
 const { Telegraf, Markup } = require('telegraf');
 const mongoose = require('mongoose');
+const { buildSitePicker } = require('./Services/onsiteSitePicker');
+const CaseSupport = require('./Models/CaseSupportModels');
+const { getOptions: getCaseSupportOptions } = require('./Models/CaseSupportOptions');
 
 // =================================================================
 // 1. SETUP & CONFIG
@@ -42,9 +45,18 @@ const STATES = {
     ADD_SITE_TRAVEL_COST: 'ADD_SITE_TRAVEL_COST',
     ADD_EQUIPMENT_NAME: 'ADD_EQUIPMENT_NAME',
     ADD_EQUIPMENT_COST: 'ADD_EQUIPMENT_COST',
+    AWAITING_CASE_SUBJECT: 'AWAITING_CASE_SUBJECT',
+    AWAITING_CASE_DESCRIPTION: 'AWAITING_CASE_DESCRIPTION',
+    AWAITING_CASE_SITE: 'AWAITING_CASE_SITE',
+    AWAITING_CASE_TYPE: 'AWAITING_CASE_TYPE',
+    AWAITING_CASE_CATEGORY: 'AWAITING_CASE_CATEGORY',
+    AWAITING_CASE_PRIORITY: 'AWAITING_CASE_PRIORITY',
+    AWAITING_CASE_ASSIGNEE: 'AWAITING_CASE_ASSIGNEE',
 };
 
 const SCOPE_OPTIONS = ['POC', 'Installation', 'Maintenance', 'PMA', 'Training'];
+const CASE_CATEGORIES = ['แจ้งซ่อม', 'ติดตั้ง', 'สอบถามการใช้งาน', 'ร้องเรียน', 'อื่นๆ'];
+const CASE_PAGE_SIZE = 6;
 
 // =================================================================
 // 2. HELPER FUNCTIONS
@@ -70,6 +82,128 @@ async function replyOrEdit(ctx, text, keyboard) {
 
 function resetSession(userId) {
     if (sessions[userId]) delete sessions[userId];
+}
+
+async function getNextCaseNo() {
+    const prefix = `CS-${new Date().toISOString().slice(0, 7).replace('-', '')}-`;
+    const latestCase = await CaseSupport.findOne({ caseNo: new RegExp(`^${prefix}`) })
+        .sort({ caseNo: -1 })
+        .select('caseNo')
+        .lean();
+    const latestNumber = latestCase ? Number(latestCase.caseNo.slice(-4)) : 0;
+    return `${prefix}${String(latestNumber + 1).padStart(4, '0')}`;
+}
+
+async function startCaseFlow(ctx) {
+    const userId = ctx.from.id;
+    if (ctx.chat.id.toString() !== TELEGRAM_CHAT_ID) {
+        return ctx.reply('❌ ไม่อนุญาตให้เปิดเคสจากแชตนี้');
+    }
+
+    resetSession(userId);
+    sessions[userId] = { state: STATES.AWAITING_CASE_SUBJECT, case: {}, messageId: null };
+    try {
+        const options = await getCaseSupportOptions();
+        sessions[userId].caseTypes = options.types.map(option => option.name).filter(Boolean);
+        await showCaseChoices(ctx, userId, {
+            key: 'subject', title: 'กรุณาเลือกหัวข้อเคส',
+            options: options.subjects.map(option => option.name).filter(Boolean),
+            inputState: STATES.AWAITING_CASE_SUBJECT,
+        });
+    } catch (error) {
+        console.error('Cannot load case subject options:', error.message);
+        await replyOrEdit(ctx, '📝 *เปิดเคสใหม่*\n\nกรุณาพิมพ์หัวข้อเคส');
+    }
+}
+
+async function showCaseChoices(ctx, userId, { key, title, options, inputState, page = 0, allowSkip = false }) {
+    const session = sessions[userId];
+    const safeOptions = options.filter(Boolean);
+    const pageCount = Math.max(1, Math.ceil(safeOptions.length / CASE_PAGE_SIZE));
+    const currentPage = Math.max(0, Math.min(page, pageCount - 1));
+    session.state = inputState;
+    session.caseChoice = { key, title, options: safeOptions, inputState, page: currentPage, allowSkip };
+    const start = currentPage * CASE_PAGE_SIZE;
+    const selected = key === 'assignee' ? (session.case.assignees || []) : [];
+    const buttons = safeOptions.slice(start, start + CASE_PAGE_SIZE)
+        .map((option, index) => [Markup.button.callback(selected.includes(option) ? `✅ ${option}` : option, `CASE_CHOICE_${start + index}`)]);
+    if (pageCount > 1) {
+        const navigation = [];
+        if (currentPage > 0) navigation.push(Markup.button.callback('⬅️ ก่อนหน้า', `CASE_CHOICE_PAGE_${currentPage - 1}`));
+        if (currentPage < pageCount - 1) navigation.push(Markup.button.callback('➡️ ถัดไป', `CASE_CHOICE_PAGE_${currentPage + 1}`));
+        buttons.push(navigation);
+    }
+    if (allowSkip) buttons.push([Markup.button.callback('✅ ยืนยันผู้รับผิดชอบ', 'CASE_CHOICE_DONE')]);
+    buttons.push([Markup.button.callback('✏️ อื่นๆ (พิมพ์เอง)', 'CASE_CHOICE_CUSTOM')]);
+    await replyOrEdit(ctx, title, buttons);
+}
+
+async function showCaseSiteSelection(ctx, userId) {
+    sessions[userId].caseSitePicker = true;
+    await showSiteSelection(ctx, userId, { mode: 'types' });
+}
+
+async function showCaseTypeSelection(ctx, userId) {
+    await showCaseChoices(ctx, userId, {
+        key: 'type', title: 'กรุณาเลือกประเภทงาน', options: sessions[userId].caseTypes || [],
+        inputState: STATES.AWAITING_CASE_TYPE,
+    });
+}
+
+async function showCaseCategorySelection(ctx, userId) {
+    await showCaseChoices(ctx, userId, {
+        key: 'category', title: 'กรุณาเลือกหมวดหมู่', options: CASE_CATEGORIES,
+        inputState: STATES.AWAITING_CASE_CATEGORY,
+    });
+}
+
+async function showCaseAssigneeSelection(ctx, userId) {
+    const employees = await Employeeonsite.find().sort('name').lean();
+    const excludedAssignees = new Set(['shipping', 'ค่าใช้จ่าย']);
+    await showCaseChoices(ctx, userId, {
+        key: 'assignee', title: 'กรุณาเลือกผู้รับผิดชอบ',
+        options: employees.map(employee => employee.name).filter(name => !excludedAssignees.has(String(name).trim().toLocaleLowerCase())),
+        inputState: STATES.AWAITING_CASE_ASSIGNEE, allowSkip: true,
+    });
+}
+
+async function advanceCaseFlow(ctx, userId, key, value) {
+    const session = sessions[userId];
+    session.case[key] = value;
+    if (key === 'assignee') session.case.assignees = Array.isArray(value) ? value : (value ? [value] : []);
+    if (key === 'subject') {
+        session.state = STATES.AWAITING_CASE_DESCRIPTION;
+        return replyOrEdit(ctx, 'กรุณาพิมพ์รายละเอียดปัญหา');
+    }
+    if (key === 'site') return showCaseTypeSelection(ctx, userId);
+    if (key === 'type') return showCaseCategorySelection(ctx, userId);
+    if (key === 'category') return showCasePrioritySelection(ctx, userId);
+    if (key === 'assignee') {
+      session.case.assignee = session.case.assignees.join(', ');
+      return replyOrEdit(ctx, caseSummary(session.case), [
+        [Markup.button.callback('✅ ยืนยันเปิดเคส', 'CASE_SAVE')],
+        [Markup.button.callback('❌ ยกเลิก', 'CASE_CANCEL')],
+      ]);
+    }
+}
+
+async function showCasePrioritySelection(ctx, userId) {
+    sessions[userId].state = STATES.AWAITING_CASE_PRIORITY;
+    await replyOrEdit(ctx, 'เลือกระดับความสำคัญของเคส', [
+        [Markup.button.callback('ต่ำ', 'CASE_PRIORITY_LOW'), Markup.button.callback('ปกติ', 'CASE_PRIORITY_NORMAL')],
+        [Markup.button.callback('สูง', 'CASE_PRIORITY_HIGH'), Markup.button.callback('เร่งด่วน', 'CASE_PRIORITY_URGENT')],
+    ]);
+}
+
+function caseSummary(caseData) {
+    return `📝 *ตรวจสอบข้อมูลก่อนบันทึก*\n\n` +
+        `*หัวข้อ:* ${caseData.subject}\n` +
+        `*รายละเอียด:* ${caseData.description}\n` +
+        `*ไซต์งาน:* ${caseData.site}\n` +
+        `*ประเภท:* ${caseData.type}\n` +
+        `*หมวดหมู่:* ${caseData.category}\n` +
+        `*ความสำคัญ:* ${caseData.priority}\n` +
+        `*ผู้รับผิดชอบ:* ${caseData.assignee || '-'}\n\nยืนยันการเปิดเคสหรือไม่?`;
 }
 
 async function startOnsiteFlow(ctx) {
@@ -130,52 +264,31 @@ async function showEmployeeSelection(ctx, userId) {
     await replyOrEdit(ctx, text, buttons);
 }
 
-async function showFilteredSiteSelection(ctx, userId, filter = {}) {
-    sessions[userId].state = STATES.AWAITING_SITE;
-    const sites = await Siteonsite.find(filter).sort('name').lean();
-    let text = `*ขั้นตอนที่ 4:*\nกรุณาเลือกไซต์งาน`;
-    let buttons = [];
-    if (sites.length > 0) {
-        sites.forEach(site => {
-            buttons.push([Markup.button.callback(site.name, `SEL_SITE_${site._id}`)]);
-        });
-    } else {
-        text += `\n\nไม่พบข้อมูลไซต์งานสำหรับประเภทนี้`;
+async function showSiteSelection(ctx, userId, view = {}) {
+    const session = sessions[userId];
+    session.state = STATES.AWAITING_SITE;
+    session.siteView = view;
+    const sites = await Siteonsite.find().sort('type name').lean();
+    session.siteTypes = [...new Set(sites.map(site => site.type))];
+    session.availableSiteIds = sites.map(site => String(site._id));
+    const recent = await Onsite.aggregate([
+        { $match: { telegramUserId: String(userId),site: { $in: sites.map(site => site._id) } } },
+        { $group: { _id: '$site', latest: { $max: '$createdAt' } } },
+        { $sort: { latest: -1, _id: 1 } },
+        { $limit: 5 },
+    ]);
+    const menu = buildSitePicker(sites, recent.map(item => item._id), view);
+    const extra = { reply_markup: { inline_keyboard: menu.buttons } };
+    if (session.messageId) {
+        try {
+            await ctx.telegram.editMessageText(ctx.chat.id, session.messageId, null, menu.text, extra);
+            return;
+        } catch (error) {
+            if (error.message.includes('message is not modified')) return;
+        }
     }
-    buttons.push([Markup.button.callback('➕ เพิ่มไซต์งานใหม่', `ADD_ITEM_SITE`)]);
-    buttons.push([Markup.button.callback('⬅️ กลับ', 'BACK_TO_EMPLOYEE')]);
-    await replyOrEdit(ctx, text, buttons);
-}
-
-async function showPaginatedSiteSelection(ctx, userId, isPaginating = false) {
-    sessions[userId].state = STATES.AWAITING_SITE;
-    if (!isPaginating) {
-        const sites = await Siteonsite.find({ type: { $ne: 'ROBOT' } }).sort('type name').lean();
-        const uniqueTypes = [...new Set(sites.map(s => s.type))];
-        sessions[userId].availableSiteTypes = uniqueTypes;
-        sessions[userId].allSites = sites;
-        sessions[userId].siteTypeIndex = 0;
-    }
-    const { availableSiteTypes, allSites, siteTypeIndex } = sessions[userId];
-    let text = `*ขั้นตอนที่ 4:*\nกรุณาเลือกไซต์งาน`;
-    let buttons = [];
-    if (availableSiteTypes.length === 0) {
-        text += `\n\nไม่พบข้อมูลไซต์งานสำหรับประเภทนี้`;
-    } else {
-        const currentType = availableSiteTypes[siteTypeIndex];
-        const sitesForCurrentType = allSites.filter(site => site.type === currentType);
-        text += `\n\n*ประเภท: ${currentType}* (${siteTypeIndex + 1}/${availableSiteTypes.length})`;
-        sitesForCurrentType.forEach(site => {
-            buttons.push([Markup.button.callback(site.name, `SEL_SITE_${site._id}`)]);
-        });
-    }
-    const navigationRow = [];
-    if (siteTypeIndex > 0) navigationRow.push(Markup.button.callback('⬅️ ก่อนหน้า', `PAGINATE_SITE_PREV`));
-    if (siteTypeIndex < availableSiteTypes.length - 1) navigationRow.push(Markup.button.callback('➡️ ถัดไป', `PAGINATE_SITE_NEXT`));
-    if (navigationRow.length > 0) buttons.push(navigationRow);
-    buttons.push([Markup.button.callback('➕ เพิ่มไซต์งานใหม่', `ADD_ITEM_SITE`)]);
-    buttons.push([Markup.button.callback('⬅️ กลับ', 'BACK_TO_EMPLOYEE')]);
-    await replyOrEdit(ctx, text, buttons);
+    const message = await ctx.reply(menu.text, extra);
+    session.messageId = message.message_id;
 }
 
 async function showRobotSelection(ctx, userId, locationName) {
@@ -244,6 +357,10 @@ bot.command('start', async (ctx) => {
     await startOnsiteFlow(ctx);
 });
 
+bot.command('opencase', async (ctx) => {
+    await startCaseFlow(ctx);
+});
+
 bot.command('reset', async (ctx) => {
     const userId = ctx.from.id;
     resetSession(userId);
@@ -251,8 +368,12 @@ bot.command('reset', async (ctx) => {
 });
 
 
-bot.hears('ออนไซต์', async (ctx) => {
+bot.hears(['onsite', 'Onsite', 'ออนไซต์'], async (ctx) => {
     await startOnsiteFlow(ctx);
+});
+
+bot.hears(['opencase', 'Opencase', 'เปิดเคส'], async (ctx) => {
+    await startCaseFlow(ctx);
 });
 
 bot.on('text', async (ctx) => {
@@ -263,6 +384,32 @@ bot.on('text', async (ctx) => {
     await ctx.deleteMessage(ctx.message.message_id).catch(e => {});
 
     switch (state) {
+        case STATES.AWAITING_CASE_SUBJECT:
+            await advanceCaseFlow(ctx, userId, 'subject', text);
+            break;
+        case STATES.AWAITING_CASE_DESCRIPTION:
+            sessions[userId].case.description = text;
+            await showCaseSiteSelection(ctx, userId);
+            break;
+        case STATES.AWAITING_CASE_SITE:
+            await advanceCaseFlow(ctx, userId, 'site', text);
+            break;
+        case STATES.AWAITING_CASE_TYPE:
+            await advanceCaseFlow(ctx, userId, 'type', text);
+            break;
+        case STATES.AWAITING_CASE_CATEGORY:
+            await advanceCaseFlow(ctx, userId, 'category', text);
+            break;
+        case STATES.AWAITING_CASE_ASSIGNEE:
+            if (text !== '-') {
+                const selected = sessions[userId].case.assignees || [];
+                sessions[userId].case.assignees = selected.includes(text) ? selected : [...selected, text];
+            }
+            await showCaseAssigneeSelection(ctx, userId);
+            break;
+        case STATES.AWAITING_SITE:
+            await showSiteSelection(ctx, userId, { mode: 'search', query: text.slice(0, 200) });
+            break;
         case STATES.AWAITING_DATE_INPUT:
             const [day, month, year] = text.split('/');
             const date = new Date(year, month - 1, day);
@@ -318,11 +465,7 @@ bot.on('text', async (ctx) => {
             sessions[userId].newItem.travelCost = travelCost;
             await Siteonsite.create(sessions[userId].newItem);
             
-            if (sessions[userId].jobType === 'ROBOT') {
-                await showFilteredSiteSelection(ctx, userId, { type: 'ROBOT' });
-            } else {
-                await showPaginatedSiteSelection(ctx, userId);
-            }
+            await showSiteSelection(ctx, userId);
             break;
         
         case STATES.ADD_EQUIPMENT_NAME:
@@ -348,6 +491,101 @@ bot.on('callback_query', async (ctx) => {
     
     try {
         await ctx.answerCbQuery().catch(e => {});
+
+        if (data.startsWith('CASE_CHOICE_PAGE_')) {
+            const choice = sessions[userId].caseChoice;
+            if (!choice) return ctx.answerCbQuery('เมนูหมดอายุแล้ว กรุณาเริ่มใหม่', { show_alert: true });
+            await showCaseChoices(ctx, userId, { ...choice, page: Number(data.replace('CASE_CHOICE_PAGE_', '')) });
+            return;
+        }
+        if (data === 'CASE_CHOICE_CUSTOM') {
+            const choice = sessions[userId].caseChoice;
+            if (!choice) return ctx.answerCbQuery('เมนูหมดอายุแล้ว กรุณาเริ่มใหม่', { show_alert: true });
+            sessions[userId].state = choice.inputState;
+            await replyOrEdit(ctx, `กรุณาพิมพ์${choice.title.replace('กรุณาเลือก', '')}`);
+            return;
+        }
+        if (data === 'CASE_CHOICE_SKIP') {
+            const choice = sessions[userId].caseChoice;
+            if (!choice?.allowSkip) return ctx.answerCbQuery('ไม่สามารถข้ามขั้นตอนนี้ได้', { show_alert: true });
+            await advanceCaseFlow(ctx, userId, choice.key, '');
+            return;
+        }
+        if (data === 'CASE_CHOICE_DONE') {
+            const choice = sessions[userId].caseChoice;
+            if (!choice?.allowSkip) return ctx.answerCbQuery('ไม่สามารถยืนยันขั้นตอนนี้ได้', { show_alert: true });
+            await advanceCaseFlow(ctx, userId, choice.key, sessions[userId].case.assignees || []);
+            return;
+        }
+        if (data.startsWith('CASE_CHOICE_')) {
+            const choice = sessions[userId].caseChoice;
+            const option = choice?.options[Number(data.replace('CASE_CHOICE_', ''))];
+            if (!option) return ctx.answerCbQuery('ไม่พบตัวเลือก กรุณาเริ่มใหม่', { show_alert: true });
+            if (choice.key === 'assignee') {
+                const selected = sessions[userId].case.assignees || [];
+                sessions[userId].case.assignees = selected.includes(option)
+                    ? selected.filter(value => value !== option)
+                    : [...selected, option];
+                await showCaseChoices(ctx, userId, choice);
+                return;
+            }
+            await advanceCaseFlow(ctx, userId, choice.key, option);
+            return;
+        }
+        if (data === 'CASE_SUBJECT_CUSTOM') {
+            sessions[userId].state = STATES.AWAITING_CASE_SUBJECT;
+            await replyOrEdit(ctx, 'กรุณาพิมพ์หัวข้อเคส');
+            return;
+        }
+        if (data.startsWith('CASE_SUBJECT_')) {
+            const subjectIndex = Number(data.replace('CASE_SUBJECT_', ''));
+            const subject = sessions[userId].caseSubjects?.[subjectIndex];
+            if (!subject) return ctx.answerCbQuery('ไม่พบหัวข้อที่เลือก กรุณาเริ่มใหม่', { show_alert: true });
+            sessions[userId].case.subject = subject;
+            sessions[userId].state = STATES.AWAITING_CASE_DESCRIPTION;
+            await replyOrEdit(ctx, 'กรุณาพิมพ์รายละเอียดปัญหา');
+            return;
+        }
+        if (data.startsWith('CASE_PRIORITY_')) {
+            const priorities = {
+                LOW: 'ต่ำ',
+                NORMAL: 'ปกติ',
+                HIGH: 'สูง',
+                URGENT: 'เร่งด่วน',
+            };
+            sessions[userId].case.priority = priorities[data.replace('CASE_PRIORITY_', '')];
+            await showCaseAssigneeSelection(ctx, userId);
+            return;
+        }
+        if (data === 'CASE_CANCEL') {
+            resetSession(userId);
+            await ctx.editMessageText('ยกเลิกการเปิดเคสแล้ว');
+            return;
+        }
+        if (data === 'CASE_SAVE') {
+            const caseData = sessions[userId].case;
+            if (!caseData.subject || !caseData.description || !caseData.site || !caseData.type || !caseData.category || !caseData.priority) {
+                return ctx.answerCbQuery('ข้อมูลเปิดเคสไม่ครบ', { show_alert: true });
+            }
+            const newCase = await CaseSupport.create({
+                ...caseData,
+                caseNo: await getNextCaseNo(),
+                openedDate: new Date(),
+            });
+            resetSession(userId);
+            await ctx.editMessageText(
+                `✅ เปิดเคสเรียบร้อยแล้ว\n` +
+                `หมายเลขเคส: ${newCase.caseNo}\n` +
+                `หัวข้อ: ${newCase.subject}\n` +
+                `ไซต์งาน: ${newCase.site}\n` +
+                `ประเภท: ${newCase.type}\n` +
+                `หมวดหมู่: ${newCase.category}\n` +
+                `ความสำคัญ: ${newCase.priority}\n` +
+                `ผู้รับผิดชอบ: ${(newCase.assignees?.length ? newCase.assignees : [newCase.assignee]).filter(Boolean).join(', ') || '-'}\n` +
+                `เปิดเมื่อ: ${new Date(newCase.openedDate).toLocaleString('th-TH')}`
+            );
+            return;
+        }
 
         if (data.startsWith('ADD_ITEM_')) {
             const itemType = data.replace('ADD_ITEM_', '');
@@ -399,28 +637,40 @@ bot.on('callback_query', async (ctx) => {
         }
         if (data === 'GOTO_SITE') {
             if (sessions[userId].employeeIds.length === 0) return await ctx.answerCbQuery('กรุณาเลือกพนักงาน', { show_alert: true });
-            if (sessions[userId].jobType === 'ROBOT') {
-                await showFilteredSiteSelection(ctx, userId, { type: 'ROBOT' });
-            } else {
-                await showPaginatedSiteSelection(ctx, userId);
-            }
+            await showSiteSelection(ctx, userId);
             return;
         }
-        if (data.startsWith('PAGINATE_SITE_')) {
-            const direction = data.replace('PAGINATE_SITE_', '');
-            if (direction === 'NEXT') sessions[userId].siteTypeIndex++;
-            else if (direction === 'PREV') sessions[userId].siteTypeIndex--;
-            await showPaginatedSiteSelection(ctx, userId, true);
+        if (data.startsWith('SITE_')) {
+            if (sessions[userId].state !== STATES.AWAITING_SITE) return;
+            let view = { ...sessions[userId].siteView };
+            if (data === 'SITE_TYPES') view = { mode: 'types' };
+            else if (data === 'SITE_RECENT') view = { mode: 'recent' };
+            else if (data.startsWith('SITE_TYPE_')) {
+                const type = sessions[userId].siteTypes[Number(data.slice(10))];
+                if (!type) return;
+                view = { mode: 'all', type };
+            } else if (data.startsWith('SITE_PAGE_')) view.page = Number(data.slice(10));
+            else return;
+            await showSiteSelection(ctx, userId, view);
             return;
         }
         if (data.startsWith('SEL_SITE_')) {
             const siteId = data.replace('SEL_SITE_', '');
+            if (sessions[userId].state !== STATES.AWAITING_SITE || !sessions[userId].availableSiteIds?.includes(siteId)) return;
             const site = await Siteonsite.findById(siteId).lean();
             if (!site) {
                  await replyOrEdit(ctx, '⚠️ เกิดข้อผิดพลาด: ไม่พบข้อมูลไซต์ที่เลือก กรุณาเริ่มใหม่');
+                 if (sessions[userId].caseSitePicker) return await showCaseSiteSelection(ctx, userId);
                  return await showJobTypeSelection(ctx, userId);
             }
+            if (sessions[userId].caseSitePicker) {
+                delete sessions[userId].caseSitePicker;
+                await advanceCaseFlow(ctx, userId, 'site', site.name);
+                return;
+            }
             sessions[userId].siteId = siteId;
+            sessions[userId].jobType = String(site.type || '').trim().toUpperCase() === 'ROBOT' ? 'ROBOT' : 'GENERAL';
+            sessions[userId].robotname = '-';
             if (sessions[userId].jobType === 'ROBOT') {
                 await showRobotSelection(ctx, userId, site.name);
             } else {
@@ -482,7 +732,8 @@ bot.on('callback_query', async (ctx) => {
             for (let i = 0; i < allSelectedEmployees.length; i++) {
                 const employee = allSelectedEmployees[i];
                 await Onsite.create({
-                    selectedBy: ctx.from.username || ctx.from.first_name, 
+                    selectedBy: ctx.from.username || ctx.from.first_name,
+                    telegramUserId: String(userId),
                     onsiteDate, 
                     employees: [employee._id], 
                     site: siteId,
@@ -509,7 +760,8 @@ bot.on('callback_query', async (ctx) => {
             }
 
             await Onsite.create({
-                selectedBy: ctx.from.username || ctx.from.first_name, 
+                selectedBy: ctx.from.username || ctx.from.first_name,
+                    telegramUserId: String(userId),
                 onsiteDate, 
                 employees: [expenseEmployee._id], 
                 site: siteId,
@@ -568,11 +820,7 @@ bot.on('callback_query', async (ctx) => {
               return;
         }
         if (data === 'BACK_TO_SITE') {
-            if (sessions[userId].jobType === 'ROBOT') {
-                await showFilteredSiteSelection(ctx, userId, { type: 'ROBOT' });
-            } else {
-                await showPaginatedSiteSelection(ctx, userId);
-            }
+            await showSiteSelection(ctx, userId);
             return;
         }
 
@@ -591,4 +839,3 @@ bot.on('callback_query', async (ctx) => {
 bot.launch(() => {
     console.log("Bot is running with the new advanced workflow!");
 });
- 

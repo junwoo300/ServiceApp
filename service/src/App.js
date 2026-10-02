@@ -53,15 +53,17 @@ import Mainpm from './components/Page/Billforpm/Mainpm';
 import Onsite from './components/Page/Onsite/Onsite';
 import OnsiteDashboard from './components/Page/Onsite/OnsiteDashboard';
 import EquipmentDashboard from './components/Page/Onsite/EquipmentDashboard';
-import Employee from './components/Page/Onsite/Employee';
 import Siteonsite from './components/Page/Onsite/Siteonsite';
 import GraphOnsite from './components/Page/Onsite/Graphonsite';
 import ImportOnsite from './components/Page/Onsite/ImportOnsite';
+import Employee from './components/Page/Employee/Employee';
 import CaseSupport from './components/Page/CaseSupport/CaseSupport';
+import CaseSupportMenu from './components/Page/CaseSupport/CaseSupportMenu';
+import CaseOptionsPage from './components/Page/CaseSupport/CaseOptionsPage';
 
 import LoginPage from './LoginPage';
 import { api } from './apiClient';
-import { FiGrid, FiPackage, FiCalendar, FiCamera, FiCpu, FiFileText, FiBookOpen, FiClipboard, FiMapPin, FiHeadphones, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
+import { FiGrid, FiPackage, FiCalendar, FiCamera, FiCpu, FiFileText, FiBookOpen, FiClipboard, FiMapPin, FiHeadphones, FiUsers, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -98,6 +100,7 @@ function App() {
 
   const navItems = [
     { label: 'ภาพรวม', path: '/', icon: FiGrid, group: 'WORKSPACE' },
+    { label: 'จัดการพนักงาน', path: '/Employee', icon: FiUsers },
     { label: 'งาน Onsite', path: '/Onsite', icon: FiMapPin, group: 'งานบริการ' },
     { label: 'Case Support', path: '/CaseSupport', icon: FiHeadphones },
     { label: 'งาน PM', path: '/Mainpm', icon: FiClipboard },
@@ -192,7 +195,10 @@ function App() {
               <Route path="/chat" element={<Chat />} />
 
               <Route path="/Projectfix" element={<Projectfix />} />
-              <Route path="/CaseSupport" element={<CaseSupport />} />
+              <Route path="/CaseSupport" element={<CaseSupportMenu />} />
+              <Route path="/CaseSupport/dashboard" element={<CaseSupport />} />
+              <Route path="/CaseSupport/subjects" element={<CaseOptionsPage kind="subjects" />} />
+              <Route path="/CaseSupport/types" element={<CaseOptionsPage kind="types" />} />
               <Route path="/projectfix/:projectId" element={<Casefix />} />
               <Route path="/howtofix/:casefixId" element={<Howtofix />} />
 

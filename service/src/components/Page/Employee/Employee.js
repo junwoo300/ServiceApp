@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Employee.css';
 
 const Employee = () => {
+    const navigate = useNavigate();
     const [employees, setEmployees] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false); // สถานะเปิด/ปิด Modal
     const [currentEmployee, setCurrentEmployee] = useState(null); // เก็บข้อมูลพนักงานที่กำลังแก้ไข
@@ -72,8 +74,8 @@ const Employee = () => {
 
     return (
         <div>
-            <button className="employee-back-btn" onClick={() => window.history.back()}>
-                🔙 กลับ
+            <button type="button" className="employee-back-btn" onClick={() => navigate('/')}>
+                🔙 กลับหน้าแรก
             </button>
             <div className="employee-dashboard-container">
                 <div className="employee-table-block">

@@ -4,6 +4,8 @@ import { FiCpu, FiRefreshCw, FiActivity, FiCheckCircle, FiWifi, FiWifiOff } from
 import { api } from '../../../apiClient';
 import './RobotStatus.css';
 import RobotStatusSummary from './RobotStatusSummary';
+import RobotPerformanceChart from './RobotPerformanceChart';
+import RobotChartTelegram from './RobotChartTelegram';
 
 const today = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok',
   year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
@@ -24,6 +26,7 @@ export default function RobotStatus() {
   const [refresh, setRefresh] = useState(0);
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('all');
+  const [selectedVins, setSelectedVins] = useState([]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -83,16 +86,23 @@ export default function RobotStatus() {
       <p><FiActivity /> ตรวจข้อมูลทุก 1 นาที{data && <> · อัปเดต {new Date(data.fetchedAt).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' })}</>}</p>
     </div>
     <RobotStatusSummary key={`${date}:${endDate}`} date={date} endDate={endDate} />
+    <RobotChartTelegram date={date} endDate={endDate} />
     {error && <div className="rs-error" role="alert">{error}{data && <strong> · กำลังแสดงข้อมูลเดิม สถานะอาจเปลี่ยนแล้ว</strong>}</div>}
     <div className="rs-kpis">{kpis.map(({ label, value, unit, icon: Icon, tone = '' }) =>
       <article className={`rs-kpi ${tone}`} key={label}><div className="rs-kpi-label">{label}<Icon /></div>
         <strong>{format(value)}</strong><small>{unit}</small></article>)}</div>
+    <RobotPerformanceChart robots={robots} selectedVins={selectedVins} onSelect={setSelectedVins}
+      period={period} loading={loading} stale={Boolean(error)} />
     <div className="rs-table-panel">
       <div className="rs-table-heading"><div><h2>ผลงานแต่ละตัว</h2><p>จำนวนงาน เวลาและพื้นที่รวมวันที่ {period} (รวมวันเริ่มต้นและสิ้นสุด) ตามรายงานต้นทาง</p></div>
         <div className="rs-filters"><label>ค้นหาหุ่นยนต์<input type="search" value={query} placeholder="ชื่อ, VIN, รุ่น หรือไซต์" onChange={e => setQuery(e.target.value)} /></label>
           <label>สถานะ<select value={status} onChange={e => setStatus(e.target.value)}><option value="all">ทุกสถานะ</option><option value="online">Online</option><option value="offline">Offline</option><option value="unknown">ไม่ทราบสถานะ</option></select></label></div></div>
       <div className="rs-table-scroll"><table><thead><tr><th>หุ่นยนต์ / VIN</th><th>ไซต์ / รุ่น</th><th>สถานะปัจจุบัน</th><th>จำนวนงาน</th><th>เวลาทำงาน</th><th>พื้นที่จริง (ตร.ม.)</th><th>พื้นที่แผน (ตร.ม.)</th></tr></thead>
-        <tbody>{visible.map(robot => <tr key={robot.vin}><td><strong>{robot.name}</strong><small>{robot.vin}</small></td>
+        <tbody>{visible.map(robot => <tr key={robot.vin}><td><strong>{robot.name}</strong><small>{robot.vin}</small>
+          <button type="button" className="rs-view-chart" aria-label={`ดูกราฟ ${robot.name} ${robot.vin}`} aria-pressed={selectedVins.includes(robot.vin)} onClick={() => {
+            setSelectedVins([robot.vin]);
+            document.getElementById('rs-performance-title')?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
+          }}>ดูกราฟ</button></td>
           <td>{robot.location || '—'}<small>{robot.model || '—'}</small></td>
           <td><span className={`rs-badge ${error ? 'unknown' : robot.status}`}>{error ? 'ข้อมูลเดิม: ' : ''}{labels[robot.status]}</span></td>
           <td>{format(robot.tasks)}</td><td className="rs-duration">{duration(robot.workMinutes)}</td><td>{format(robot.actualArea)}</td><td>{format(robot.plannedArea)}</td></tr>)}

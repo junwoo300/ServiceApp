@@ -1,48 +1,68 @@
+import {
+  FiPackage, FiCalendar, FiCamera, FiCpu, FiFileText,
+  FiBookOpen, FiClipboard, FiMapPin, FiHeadphones, FiUsers,
+} from 'react-icons/fi';
+
 const Datamenu = [
   {
     title: "จัดการคลัง Service",
-    thumnailUrl: "/imagenakub/123.jpg",
+    icon: FiPackage,
+    description: "ตรวจสอบรายการและจัดการอุปกรณ์ในคลัง",
     link: "/Wherehouse"
   },
   {
     title: "ระบบ PMA Service",
-    thumnailUrl: "/imagenakub/234.jpg",
+    icon: FiCalendar,
+    description: "สัญญาบริการและแผนบำรุงรักษา",
     link: "/pmapage"
   },
   {
     title: "รายการ Intrusion Camera",
-    thumnailUrl: "/imagenakub/ow3.png",
+    icon: FiCamera,
+    description: "โปรเจกต์ ไซต์งาน และอุปกรณ์กล้อง",
     link: "/CameraProlist"
   },
   {
     title: "จัดการ Robot",
-    thumnailUrl: "/imagenakub/bot.png",
+    icon: FiCpu,
+    description: "ทะเบียนหุ่นยนต์และประวัติการซ่อม",
     link: "/Menurobotlist"
   },
   {
     title: "เอกสาร Document",
-    thumnailUrl: "/imagenakub/doc.png",
+    icon: FiFileText,
+    description: "เอกสารและแบบฟอร์มสำหรับทีม",
     link: "/Menudoc"
   },
   {
     title: "ความรู้ Knowledge Hub",
-    thumnailUrl: "/imagenakub/knowledge.jpg",
+    icon: FiBookOpen,
+    description: "ค้นหาวิธีแก้ปัญหาและความรู้จากงานจริง",
     link: "/Projectfix"
   },
   {
     title: "ระบบงาน PM",
-    thumnailUrl: "/imagenakub/Pmpic.jpg",
+    icon: FiClipboard,
+    description: "ติดตามรายการงานและบิลบำรุงรักษา",
     link: "/Mainpm"
   },
   {
     title: "ระบบ ONSITE",
-    thumnailUrl: "/imagenakub/lolo.png",
+    icon: FiMapPin,
+    description: "บันทึกหน้างาน ทีมงาน และค่าใช้จ่าย",
     link: "/Onsite"
   },
   {
     title: "ระบบ Case Support",
-    thumnailUrl: "/imagenakub/microteam.png",
+    icon: FiHeadphones,
+    description: "เปิดเคส ติดตามสถานะ และดูผู้รับผิดชอบ",
     link: "/CaseSupport"
+  },
+  {
+    title: "จัดการพนักงาน",
+    icon: FiUsers,
+    description: "ดูรายชื่อ แก้ไขข้อมูล และอัตราค่าแรงพนักงาน",
+    link: "/Employee"
   },
 ];
 

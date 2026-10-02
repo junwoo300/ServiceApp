@@ -18,13 +18,6 @@ const menus = [
     link: "/EquipmentDashboard",
   },
   {
-    id: 3,
-    title: "จัดการพนักงาน",
-    description: "ตรวจสอบรายชื่อและประสิทธิภาพของทีม",
-    image: "/imagenakub/human.png",
-    link: "/Employee",
-  },
-   {
     id: 4,
     title: "จัดการไซต์งาน",
     description: "จัดการไซต์งานปรับค่าเดินทาง",
